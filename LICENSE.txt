@@ -1,0 +1,5 @@
+Copyright (C) 2013 Christian Bielert
+
+All program source code in this repository is released under the AGPL. See agpl_license.txt for further information.
+
+All other documents and assets are released under the Creative Commons Attribution-ShareAlike 3.0 Unported license. See http://creativecommons.org/licenses/by-sa/3.0/ for further information.
