@@ -43,3 +43,6 @@ class Entity(object):
             return obj.deepcopy()
         else:
             return obj
+
+    def equals(self, other):
+        return self == other

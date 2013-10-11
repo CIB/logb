@@ -1,5 +1,6 @@
 from copy import deepcopy
 from statement import Statement, StatementType
+from entity import Entity, EntityType
 
 class Variable(object):
     def __init__(self, name):
@@ -34,14 +35,20 @@ class Pattern(object):
         return rval
 
     def substitute(self, substitutions):
-        """ :param substitutions: A dict mapping variable IDs to entities to replace them with """
+        """ :param dict substitutions: A dict mapping variable IDs to entities to replace them with """
 
         rval = self.deepcopy()
 
         # Assume root is a statement for now.
         assert isinstance(rval.root, Statement)
 
-        self.recursive_substitute(rval.root, substitutions)
+        rval.recursive_substitute(rval.root, substitutions)
+
+        # Remove the variables that we substituted.
+        for key in substitutions.keys():
+            for variable in self.variables:
+                if variable.name == key:
+                    self.variables.remove(variable)
 
         return rval
 
@@ -54,3 +61,44 @@ class Pattern(object):
                 elif isinstance(value, Statement):
                     # This call modifies `value` in-place.
                     self.recursive_subsitute(value, substitutions)
+
+    def match(self, statement):
+        """ Check if the given statement matches this pattern. 
+            @return If the statement matches, a dict `variable -> substitution`, otherwise None.
+        """
+
+        substitutions = {}
+        success = self.match_recursive(statement, self.root, substitutions)
+        if success:
+            return substitutions
+        else:
+            return None
+
+    def match_recursive(self, statement, pattern_statement, substitutions):
+        assert isinstance(statement, Statement)
+        assert isinstance(pattern_statement, Statement)
+        assert isinstance(substitutions, dict)
+
+        if statement.statement_type != pattern_statement.statement_type:
+            return False
+
+        for key, entity in pattern_statement.structure["arguments"].items():
+            assert isinstance(entity, Entity) or isinstance(entity, Variable)
+            entity_to_match = statement.structure["arguments"][key]
+
+            if isinstance(entity, Statement):
+                if not self.match_recursive(entity_to_match, entity, substitutions):
+                    return False
+
+            elif isinstance(entity, Variable):
+                # Check if substituting works
+                if substitutions.has_key(entity.name) and substitutions[entity.name] != entity_to_match:
+                    return False
+
+                substitutions[entity.name] = entity_to_match
+
+            else:
+                if not entity.equals(entity_to_match):
+                    return False
+
+        return True
