@@ -35,7 +35,13 @@ class Pattern(object):
         return rval
 
     def substitute(self, substitutions):
-        """ :param dict substitutions: A dict mapping variable IDs to entities to replace them with """
+        """ Substitute variables with entities and return the resulting pattern.
+        
+        Example: Foo(%X).substitute("X", Bar) -> Foo(Bar)
+        
+        @param dict substitutions: A dict mapping variable names to entities to replace them with 
+        @return: A copy of this pattern, with variables replaced by the given substitutions.
+        """
 
         rval = self.deepcopy()
 
