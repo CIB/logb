@@ -12,6 +12,8 @@ class EntityType(object):
 class Entity(object):
     def __init__(self, typ):
         ':type typ: EntityType'
+        assert isinstance(typ, EntityType)
+        
         self.type = typ
         self.pointer = None
         self.structure = {}
@@ -45,4 +47,43 @@ class Entity(object):
             return obj
 
     def equals(self, other):
-        return self == other
+        assert isinstance(other, Entity)
+        
+        if self.type != other.type:
+            return False
+        
+        if self.type.has_pointer != other.type.has_pointer:
+            return False
+        
+        if self.type.has_structure != other.type.has_structure:
+            return False
+        
+        if self.type.has_pointer and self.pointer != other.pointer:
+            return False
+        
+        if self.type.has_structure:
+            # Recursively compare the structure
+            if not self.recursive_structure_compare(self.structure, other.structure):
+                return False
+            
+        return True
+        
+    def recursive_structure_compare(self, self_structure, other_structure):
+        if type(self_structure) != type(other_structure):
+            return False
+        
+        if isinstance(self_structure, dict):
+            if len(self_structure.items()) != len(other_structure.items()):
+                return False
+            
+            for key, value in self_structure.iteritems():
+                if (not other_structure.has_key(key)) or (not self.recursive_structure_compare(value, other_structure[key])):
+                    return False
+                
+            return True
+        
+        elif isinstance(self_structure, Entity):
+            return self_structure.equals(other_structure)
+        
+        else:
+            return self_structure == other_structure

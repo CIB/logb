@@ -45,6 +45,10 @@ class Context:
                 for dependency in alternative:
                     workqueue.append(dependency)
 
-            node.parent.check_dependencies()
+            if node.parent:
+                node.parent.check_dependencies()
 
             # TODO: if the node is now proven, remove all workqueue items in its subtree
+            
+        # Okay, we're done here. Did we prove/disprove anything?
+        return tree.get_root().result
