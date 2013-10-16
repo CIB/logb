@@ -30,12 +30,12 @@ class Context:
         while len(workqueue):
             node = workqueue.pop(0)
             statement = node.statement
-			
-			for other_statement in self.statements:
-				if other_statement.equals(statement):
-					node.set_proven()
-					continue
-				# TODO: handle disproving by matching NOT
+
+            for other_statement in self.statements:
+                if other_statement.equals(statement):
+                    node.set_proven()
+                    break
+                # TODO: handle disproving by matching NOT
 
             for rule in self.rules:
                 if rule.conclusion.equals(statement):
@@ -45,6 +45,6 @@ class Context:
                 for dependency in alternative:
                     workqueue.append(dependency)
 
-			node.parent.check_dependencies()
-			
-			# TODO: if the node is now proven, remove all workqueue items in its subtree
+            node.parent.check_dependencies()
+
+            # TODO: if the node is now proven, remove all workqueue items in its subtree
