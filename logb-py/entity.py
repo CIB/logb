@@ -19,14 +19,21 @@ class Entity(object):
         self.structure = {}
 
     def set_pointer(self, pointer):
+        """ Set the pointer to some "external" data which defines the entity.
+            Could, for instance, be a number.
+        """
         assert self.typ.has_pointer
         self.pointer = pointer
 
     def set_structure(self, structure):
+        """ Set the own structure. Entity structures can be used to painlessly
+            represent hierarchical entities like trees.
+        """
         assert self.typ.has_structure
         self.structure = structure
 
     def deepcopy(self):
+        """ Recursively copies this entity and all its structural contents. """
         rval = Entity(self.type)
         rval.module = self.module
         rval.pointer = self.pointer
@@ -47,6 +54,10 @@ class Entity(object):
             return obj
 
     def equals(self, other):
+        """ Check if this entity equals another. This means that the type must be the same,
+            that if there's a pointer, the pointer must be the same, and that if there's
+            a structure, the structure must (recursively) be the same.
+        """
         assert isinstance(other, Entity)
         
         if self.type != other.type:

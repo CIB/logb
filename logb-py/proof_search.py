@@ -33,12 +33,17 @@ class ProofSearchTreeNode(object):
         self.alternatives.append(statement_nodes)
 
     def set_proven(self):
+        """ Set this node to being proven. """
         self.result = "proven"
     
     def set_disproven(self):
+        """ Set this ndoe to being disproven. """
         self.result = "disproven"
     
     def check_dependencies(self):
+        """ Check if we're proven/disproven by checking
+            dependencies.
+        """
         for alternative in self.alternatives:
             allTrue = True
             for dependency in alternative:

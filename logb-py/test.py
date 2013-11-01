@@ -37,3 +37,4 @@ myrule.set_conclusion(Statement(st_And, {0:A, 1:A}))
 context.add_rule(myrule)
 
 print(context.infer_statement(Statement(st_And, {0:A, 1:A})))
+print(context.infer_statement(Statement(st_And, {0:0, 1:A})))

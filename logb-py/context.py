@@ -22,6 +22,16 @@ class Context:
         self.rules.append(rule)
 
     def infer_statement(self, statement):
+        """ Try to infer a statement out of the current context.
+
+            This works as follows:
+            - For each statement that we're trying to prove, we try to find it in the current database
+            - If we can't find the statement in the database, we check each rule for whether it could
+              produce what we're looking for, and if so, add its dependencies to the work queue
+            - This way, we build a sort of dependency tree, and in this tree try to prove a "path".
+              If we manage to prove a path, our original statement is proven.
+        """
+
         tree = ProofSearchTree(statement.deepcopy())
 
 
