@@ -5,6 +5,9 @@ from entity import Entity, EntityType
 class Variable(object):
     def __init__(self, name):
         self.name = name
+        
+    def deepcopy(self):
+        return Variable(self.name)
 
 class Pattern(object):
     def __init__(self):
@@ -29,6 +32,7 @@ class Pattern(object):
             new_constraints.append(value.deepcopy())
 
         rval = Pattern()
+        
         rval.root = self.root.deepcopy()
         rval.variables = deepcopy(self.variables)
         rval.constraints = new_constraints
@@ -46,7 +50,12 @@ class Pattern(object):
         rval = self.deepcopy()
 
         # Assume root is a statement for now.
-        assert isinstance(rval.root, Statement)
+        assert isinstance(rval.root, Statement) or isinstance(rval.root, Variable)
+        
+        if isinstance(rval.root, Variable):
+            if substitutions.has_key(rval.root.name):
+                rval.root = substitutions[rval.root.name]
+            return rval
 
         rval.recursive_substitute(rval.root, substitutions)
 
@@ -98,7 +107,7 @@ class Pattern(object):
 
             elif isinstance(entity, Variable):
                 # Check if substituting works
-                if substitutions.has_key(entity.name) and substitutions[entity.name] != entity_to_match:
+                if substitutions.has_key(entity.name) and not substitutions[entity.name].equals(entity_to_match):
                     return False
 
                 substitutions[entity.name] = entity_to_match

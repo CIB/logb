@@ -34,7 +34,6 @@ class Context:
 
         tree = ProofSearchTree(statement.deepcopy())
 
-
         workqueue = [tree.get_root()]
 
         while len(workqueue):
@@ -48,8 +47,9 @@ class Context:
                 # TODO: handle disproving by matching NOT
 
             for rule in self.rules:
-                if rule.conclusion.equals(statement):
-                    node.add_alternative(rule.dependencies)
+                substitutions = rule.conclusion_pattern().match(statement)
+                if substitutions:
+                    node.add_alternative(rule.get_dependencies(substitutions))
 
             for alternative in node.alternatives:
                 for dependency in alternative:
