@@ -59,9 +59,9 @@ class Rule:
             
             used_pattern = used_pattern.substitute(substitutions)
             
-            #if len(used_pattern.variables) > 0:
-            #    # Not all variables have been substituted, oops!
-            #    return None
+            if len(used_pattern.variables) > 0:
+                # Not all variables have been substituted, oops!
+                raise "Not all variables have been substituted."
             
             rval.append(used_pattern.root)
             

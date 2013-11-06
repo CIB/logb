@@ -1,6 +1,8 @@
 from copy import deepcopy
-from statement import Statement, StatementType
+
 from entity import Entity, EntityType
+from statement import Statement, StatementType
+
 
 class Variable(object):
     def __init__(self, name):
@@ -48,6 +50,7 @@ class Pattern(object):
         """
 
         rval = self.deepcopy()
+        assert isinstance(rval, Pattern)
 
         # Assume root is a statement for now.
         assert isinstance(rval.root, Statement) or isinstance(rval.root, Variable)
@@ -55,15 +58,14 @@ class Pattern(object):
         if isinstance(rval.root, Variable):
             if substitutions.has_key(rval.root.name):
                 rval.root = substitutions[rval.root.name]
-            return rval
-
-        rval.recursive_substitute(rval.root, substitutions)
+        else:
+            rval.recursive_substitute(rval.root, substitutions)
 
         # Remove the variables that we substituted.
         for key in substitutions.keys():
-            for variable in self.variables:
+            for variable in rval.variables:
                 if variable.name == key:
-                    self.variables.remove(variable)
+                    rval.variables.remove(variable)
 
         return rval
 

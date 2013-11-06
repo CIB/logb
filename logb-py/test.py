@@ -1,9 +1,7 @@
 from statement import Statement, StatementType
-from entity import Entity, EntityType
 from pattern import Pattern
 from module import Module
 from context import Context
-from proof_search import ProofSearchTree, ProofSearchTreeNode
 from rule import Rule
 
 m_Test = Module("Test")
@@ -42,6 +40,4 @@ print(context.infer_statement(Statement(st_And, {0:A, 1:A})))
 print(context.infer_statement(Statement(st_And, {0:B, 1:A})))
 
 # TODO:
-# print(context.infer_statement(Statement(st_And, {0:B, 1:A}))) should be None!
 # All the combinations of matching/unifying
-# Make patterns remove the variables that have been substituted on substitution

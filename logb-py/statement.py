@@ -23,6 +23,9 @@ class Statement(Entity):
         rval = Statement(self.statement_type, {})
         rval.structure = self.copy_structure(self.structure)
         return rval
+    
+    def equals(self, other):
+        return Entity.equals(self, other) and self.statement_type == other.statement_type
 
 m_statement = module.Module("statement")
 et_statement = EntityType("statement", m_statement)
