@@ -55,6 +55,13 @@ public class Pattern {
 	}
 	
 	/**
+	 * Get the root entity of this pattern.
+	 */
+	public EntityStructureBase getRoot() {
+		return this.root;
+	}
+	
+	/**
 	 * Set the root of the pattern.
 	 * 
 	 * @param root An entity or variable, should not be an EntityStructure
