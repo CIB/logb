@@ -1,7 +1,10 @@
 package org.logb;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * Manage a repository of statements and rules, and allow to infer new statements
@@ -20,82 +23,49 @@ public class KnowledgeBase {
 	}
 	
 	/**
-	 * Represents the result of an inference.
+	 * Try to infer the given statement from all the statements and rules currently in this
+	 * knowledge base.
+	 * 
+	 * @param statement The statement we're trying to infer.
+	 * @return PROVEN, DISPROVEN or UNKNOWN, depending on whether we can prove the statement, disprove it, or neither disprove nor prove it.
 	 */
-	public enum InferenceResult {
-		UNKNOWN, // Don't know whether true or false
-		TRUE,    // Statement could be inferred from knowledge base
-		FALSE    // NOT(Statement) could be inferred from knowledge base
-	}
-	
-	public InferenceResult inferStatement(Statement statement) {
+	public ProofSearchTree.Result inferStatement(Statement statement) {
+		// Initialize the proof search tree with our statement we're looking for as root.
+		ProofSearchTree tree = new ProofSearchTree(statement);
 		
+		// Create a work queue. The work queue is there to implement a breadth first search on our proof search tree.
+		Queue<ProofSearchTree.Node> workQueue = new LinkedList<ProofSearchTree.Node>();
+		workQueue.add(tree.getRoot());
+		
+		// One by one, check nodes in the work queue.
+		// - If the statement already exists in our KnowledgeBase, the statement is proven
+		// - If NOT(statement) already exists in our KnowledgeBase, the statement is disproven
+		// - By doing setProven/setDisproven, we trigger an algorithm that "propagates" the new proven/disproven value
+		//   of the statement to all statements that depend on it.
+		while(workQueue.size() > 0) {
+			ProofSearchTree.Node currentNode = workQueue.remove();
+			Statement currentStatement = currentNode.getStatement();
+			
+			for(Statement other : statements) {
+				if(other.equals(currentNode.getStatement())) {
+					currentNode.setProven();
+				} // TODO: compare to NOT(statement) as well
+			}
+			
+			for(Rule rule : rules) {
+				Map<String,EntityStructureBase> substitutions = rule.getConclusionPattern().match(currentStatement);
+				if(substitutions != null) {
+					currentNode.addAlternative(rule.getDependencies(substitutions));
+				}
+			}
+			
+			for(List<ProofSearchTree.Node> dependencies : currentNode.getAlternatives()) {
+				for(ProofSearchTree.Node dependency : dependencies) {
+					workQueue.add(dependency);
+				}
+			}
+		}
+		
+		return tree.getRoot().getResult();
 	}
 }
-
-/**
-from proof_search import ProofSearchTree, ProofSearchTreeNode
-
-class Context:
-    """ Manage a repository of statements and rules. """
-
-    def __init__(self):
-        self.scopes = []
-        self.statements = []
-        self.rules = []
-
-    def add_statement(self, statement):
-        self.statements.append(statement)
-
-    def add_rule(self, rule):
-        """ Add a new rule to this context.
-        
-            @param forall: This statement should be of the form: ForAll %X: A(%X) => B(%X),
-                          where %X can be any number of arguments, and A() and B() can be
-                          any statement.
-        """
-
-        self.rules.append(rule)
-
-    def infer_statement(self, statement):
-        """ Try to infer a statement out of the current context.
-
-            This works as follows:
-            - For each statement that we're trying to prove, we try to find it in the current database
-            - If we can't find the statement in the database, we check each rule for whether it could
-              produce what we're looking for, and if so, add its dependencies to the work queue
-            - This way, we build a sort of dependency tree, and in this tree try to prove a "path".
-              If we manage to prove a path, our original statement is proven.
-        """
-
-        tree = ProofSearchTree(statement.deepcopy())
-
-        workqueue = [tree.get_root()]
-
-        while len(workqueue):
-            node = workqueue.pop(0)
-            statement = node.statement
-
-            for other_statement in self.statements:
-                if other_statement.equals(statement):
-                    node.set_proven()
-                    break
-                # TODO: handle disproving by matching NOT
-
-            for rule in self.rules:
-                substitutions = rule.conclusion_pattern().match(statement)
-                if substitutions:
-                    node.add_alternative(rule.get_dependencies(substitutions))
-
-            for alternative in node.alternatives:
-                for dependency in alternative:
-                    workqueue.append(dependency)
-
-            if node.parent:
-                node.parent.check_dependencies()
-
-            # TODO: if the node is now proven, remove all workqueue items in its subtree
-            
-        # Okay, we're done here. Did we prove/disprove anything?
-        return tree.get_root().result
-*/

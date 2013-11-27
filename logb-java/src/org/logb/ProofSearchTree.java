@@ -11,6 +11,10 @@ import java.util.List;
 public class ProofSearchTree {
 	Node root;
 	
+	public ProofSearchTree(Statement statement) {
+		this.root = new Node(statement);
+	}
+	
 	public Node getRoot() {
 		return root;
 	}
@@ -18,7 +22,7 @@ public class ProofSearchTree {
 	public enum Result {
 		PROVEN,
 		DISPROVEN,
-		UNCERTAIN
+		UNKNOWN
 	}
 	
 	public class Node {
@@ -31,7 +35,7 @@ public class ProofSearchTree {
 		// The statement this node represents.
 		private Statement statement;
 		
-		private Result isProven = Result.UNCERTAIN;
+		private Result isProven = Result.UNKNOWN;
 		
 		public Node(Statement statement) {
 			this.statement = statement;
@@ -39,14 +43,28 @@ public class ProofSearchTree {
 		
 		public void setProven() {
 			isProven = Result.PROVEN;
+			if(parent != null) {
+				parent.checkDependencies();
+			}
 		}
 		
 		public void setDisproven() {
 			isProven = Result.DISPROVEN;
+			if(parent != null) {
+				parent.checkDependencies();
+			}
 		}
 		
 		public Result getResult() {
 			return isProven;
+		}
+		
+		public Statement getStatement() {
+			return this.statement;
+		}
+		
+		public List<List<Node>> getAlternatives() {
+			return alternatives;
 		}
 		
 		/** Add a new alternative with which this node can be proven.
@@ -74,6 +92,7 @@ public class ProofSearchTree {
 		 * this node to be disproven.
 		 */
 		public void checkDependencies() {
+			// TODO: actually, the disproven part of this is wrong. there's no requirement that *all* alternatives must be known, so there could be other sets of statements enabling us to prove the statement.
 			// This algorithm needs to do several things.
 			// 1. To check whether `this` is proven, it needs to check whether there is one alternative
 			//    for which ALL dependencies are proven. If there is, `this` is proven.
