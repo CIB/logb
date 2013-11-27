@@ -92,40 +92,24 @@ public class ProofSearchTree {
 		 * this node to be disproven.
 		 */
 		public void checkDependencies() {
-			// TODO: actually, the disproven part of this is wrong. there's no requirement that *all* alternatives must be known, so there could be other sets of statements enabling us to prove the statement.
 			// This algorithm needs to do several things.
 			// 1. To check whether `this` is proven, it needs to check whether there is one alternative
 			//    for which ALL dependencies are proven. If there is, `this` is proven.
-			// 2. To check whether `this` is disproven, it needs to check whether all alternatives are
-			//    disproven. To do that, for each alternative we need to find at least one dependency of
-			//    that alternative that is disproven.
 			
-			boolean disproven = true;
 			for(List<Node> dependencies : alternatives) {
 				boolean proven = true;
-				boolean oneDependencyFalse = false;
 				
 				for(Node dependency : dependencies) {
 					if(dependency.getResult() != Result.PROVEN) {
 						proven = false;
+						break;
 					}
-					if(dependency.getResult() == Result.DISPROVEN) {
-						oneDependencyFalse = true;
-					}
-				}
-				
-				if(!oneDependencyFalse) {
-					disproven = false;
 				}
 				
 				if(proven) {
 					this.setProven();
 					break;
 				}
-			}
-			
-			if(disproven) {
-				this.setDisproven();
 			}
 		}
 	}
