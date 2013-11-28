@@ -15,6 +15,7 @@ public class Entity implements EntityStructureBase {
 	 * @param type The EntityType that this object instanciates.
 	 */
 	public Entity(EntityType type) {
+		assert(type != null);
 		this.type = type;
 	}
 
@@ -72,9 +73,15 @@ public class Entity implements EntityStructureBase {
 	@Override
 	public EntityStructureBase substitute(
 			Map<String, EntityStructureBase> substitutions) {
-		Entity copy = new Entity(this.type);
-		copy.setPointer(this.pointer);
-		copy.setStructure(this.structure.substitute(substitutions));
+		Entity copy = (Entity) this.deepcopy();
+		copy.structure = null;
+		copy.pointer = null;
+		if(pointer != null) {
+			copy.setPointer(this.pointer);
+		}
+		if(structure != null) {
+			copy.setStructure(this.structure.substitute(substitutions));
+		}
 		return copy;
 	}
 	
@@ -100,6 +107,18 @@ public class Entity implements EntityStructureBase {
 		}
 
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		String rval = type.getName();
+		if(pointer != null) {
+			rval += " @" + System.identityHashCode(pointer);
+		}
+		if(structure != null) {
+			rval += " " + structure.toString();
+		}
+		return rval;
 	}
 
 	private EntityType type;

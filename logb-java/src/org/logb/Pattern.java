@@ -2,6 +2,7 @@ package org.logb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +92,15 @@ public class Pattern {
 		Pattern copy = this.deepcopy();
 		copy.setRoot(copy.root.substitute(substitutions));
 		
-		// TODO: remove substituted variables from copy.variables
+		for(String variableName : substitutions.keySet()) {
+			Iterator<Variable> variablesIterator = variables.iterator();
+			while(variablesIterator.hasNext()) {
+				Variable next = variablesIterator.next();
+				if(next.getName() == variableName) {
+					variablesIterator.remove();
+				}
+			}
+		}
 		
 		return copy;
 	}
@@ -110,6 +119,21 @@ public class Pattern {
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		String rval = "Pattern(";
+		for(int i=0; i < variables.size(); i++) {
+			Variable v = variables.get(i);
+			rval += v.getName();
+			if(i + 1 < variables.size()) {
+				rval += ", ";
+			}
+		}
+		rval += ") ";
+		rval += root.toString();
+		return rval;
 	}
 	
 	private EntityStructureBase root = null;

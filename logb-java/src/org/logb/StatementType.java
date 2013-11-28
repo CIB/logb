@@ -9,4 +9,8 @@ public class StatementType {
 
 	private final String name;
 	private final Module mod;
+	
+	public String getName() {
+		return this.name;
+	}
 }

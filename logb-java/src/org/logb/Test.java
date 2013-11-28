@@ -6,6 +6,8 @@ import java.util.Map;
 public class Test {
 
 	public static void main(String[] args) {
+		Statement.initialize();
+		
 		Module m_Test = new Module("Test");
 		StatementType st_And = new StatementType("And", m_Test);
 		StatementType st_A = new StatementType("A", m_Test);
@@ -29,6 +31,10 @@ public class Test {
 		substitutions.put("Y", B);
 		Pattern substituted = testPattern.substitute(substitutions);
 		System.out.println(substituted);
+		System.out.println(testPattern);
+		
+		Map<String,EntityStructureBase> substitutions2 = testPattern.match(substituted.getRoot());
+		System.out.println(substitutions2);
 	}
 
 }

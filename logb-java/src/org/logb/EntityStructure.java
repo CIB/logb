@@ -71,11 +71,27 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 		}
 		
 		for (String key : this.keySet()) {
-			if(!entityToMatch.containsKey(key) || !entityToMatch.get(key).match(this, substitutions)) {
+			if(!entityToMatch.containsKey(key) || !this.get(key).match(entityToMatch.get(key), substitutions)) {
 				return false;
 			}
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		if(this.size() == 0) {
+			return "";
+		}
+		
+		String rval = "{";
+		for(String key : this.keySet()) {
+			EntityStructureBase child = this.get(key);
+			rval += child.toString();
+			rval += ", ";
+		}
+		rval += "}";
+		return rval;
 	}
 }
