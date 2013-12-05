@@ -67,7 +67,7 @@ public class Rule {
 	 * 
 	 * @param conclusion The conclusion to set.
 	 */
-	public void setConclusion(Statement conclusion) {
+	public void setConclusion(EntityStructureBase conclusion) {
 		this.conclusion = conclusion;
 	}
 
@@ -95,7 +95,7 @@ public class Rule {
 			Map<String, EntityStructureBase> substitutions) {
 		List<Statement> rval = new ArrayList<Statement>();
 		
-		for(Statement dependency: dependencies) {
+		for(EntityStructureBase dependency: dependencies) {
 			// In order to apply the substitutions to the statement,
 			// we first pack the statement into a pattern with the
 			// same variables as this rule, then call substitute
@@ -113,7 +113,7 @@ public class Rule {
 		return rval;
 	}
 
-	private List<Variable> variables;
-	private List<Statement> dependencies;
-	private Statement conclusion;
+	private List<Variable> variables = new ArrayList<Variable>();
+	private List<EntityStructureBase> dependencies = new ArrayList<EntityStructureBase>();
+	private EntityStructureBase conclusion;
 }

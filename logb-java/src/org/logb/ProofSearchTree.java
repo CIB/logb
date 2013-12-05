@@ -27,7 +27,7 @@ public class ProofSearchTree {
 	
 	public class Node {
 		// A list of alternatives, and the alternatives themselves are a list of dependencies for that alternative.
-		private List< List<Node> > alternatives;
+		private List< List<Node> > alternatives = new ArrayList<List<Node>>();
 		
 		// The parent of this node in the proof search tree.
 		private Node parent;

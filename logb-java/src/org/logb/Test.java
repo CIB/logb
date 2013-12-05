@@ -2,6 +2,7 @@ package org.logb;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Test {
 
@@ -35,6 +36,24 @@ public class Test {
 		
 		Map<String,EntityStructureBase> substitutions2 = testPattern.match(substituted.getRoot());
 		System.out.println(substitutions2);
+		
+		KnowledgeBase kb = new KnowledgeBase();
+		Rule myRule = new Rule();
+		Variable F = myRule.addVariable("F");
+		andStructure = new EntityStructure();
+		andStructure.put("lefthand", F);
+		andStructure.put("righthand", F);
+		Statement ruleAnd = new Statement(st_And, andStructure);
+		myRule.addDependency(ruleAnd);
+		myRule.setConclusion(F);
+		
+		kb.addRule(myRule);
+		andStructure = new EntityStructure();
+		andStructure.put("lefthand", A);
+		andStructure.put("righthand", A);
+		kb.addStatement(new Statement(st_And, andStructure));
+		
+		System.out.println(kb.inferStatement(A));
 	}
 
 }

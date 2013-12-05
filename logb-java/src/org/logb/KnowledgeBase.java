@@ -46,6 +46,8 @@ public class KnowledgeBase {
 			ProofSearchTree.Node currentNode = workQueue.remove();
 			Statement currentStatement = currentNode.getStatement();
 			
+			System.out.println("Working on "+currentStatement);
+			
 			for(Statement other : statements) {
 				if(other.equals(currentNode.getStatement())) {
 					currentNode.setProven();
