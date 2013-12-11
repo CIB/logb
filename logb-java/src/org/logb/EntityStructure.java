@@ -32,12 +32,12 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 		EntityStructure other = (EntityStructure) otherBase;
 		
 		if (this.keySet().size() != other.keySet().size()) {
-			
+			return false;
 		}
 		
 		for (String key : this.keySet()) {
 			EntityStructureBase value = this.get(key).deepcopy();
-			if(!other.containsKey(key) || !other.get(key).equals(this)) {
+			if(!other.containsKey(key) || !other.get(key).equals(this.get(key))) {
 				return false;
 			}
 		}

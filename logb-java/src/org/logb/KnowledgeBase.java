@@ -53,6 +53,7 @@ public class KnowledgeBase {
 			for(Statement other : statements) {
 				if(other.equals(currentNode.getStatement())) {
 					currentNode.setProven();
+					continue; // once this is proven, don't need to go any further
 				} // TODO: compare to NOT(statement) as well
 			}
 			
