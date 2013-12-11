@@ -1,4 +1,4 @@
-package org.logb;
+package org.logb.core;
 
 public class StatementType {
 	public StatementType(String name, Module mod) {

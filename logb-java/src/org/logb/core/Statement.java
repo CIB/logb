@@ -1,4 +1,4 @@
-package org.logb;
+package org.logb.core;
 
 public class Statement extends Entity {
 	static public EntityType ENTITY_TYPE_STATEMENT;

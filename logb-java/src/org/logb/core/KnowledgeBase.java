@@ -1,10 +1,12 @@
-package org.logb;
+package org.logb.core;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import org.logb.view.ProofSearchTreeViewer;
 
 /**
  * Manage a repository of statements and rules, and allow to infer new statements

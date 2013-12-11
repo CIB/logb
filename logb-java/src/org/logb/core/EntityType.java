@@ -1,4 +1,4 @@
-package org.logb;
+package org.logb.core;
 
 /**
  * Represents a `class` of entities.

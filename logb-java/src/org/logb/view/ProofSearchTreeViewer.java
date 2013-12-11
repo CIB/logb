@@ -6,7 +6,7 @@
  * Copyright March 8, 2007 Grotto Networking
  */
 
-package org.logb;
+package org.logb.view;
 
 import java.awt.Dimension;
 import java.util.HashMap;
@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
+
+import org.logb.core.ProofSearchTree;
 
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;

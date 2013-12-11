@@ -2,7 +2,16 @@ package org.logb;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
+import org.logb.core.EntityStructure;
+import org.logb.core.EntityStructureBase;
+import org.logb.core.KnowledgeBase;
+import org.logb.core.Module;
+import org.logb.core.Pattern;
+import org.logb.core.Rule;
+import org.logb.core.Statement;
+import org.logb.core.StatementType;
+import org.logb.core.Variable;
 
 public class Test {
 
