@@ -112,5 +112,10 @@ public class ProofSearchTree {
 				}
 			}
 		}
+		
+		@Override
+		public String toString() {
+			return statement.toString();
+		}
 	}
 }

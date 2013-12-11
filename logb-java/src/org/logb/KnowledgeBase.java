@@ -42,7 +42,9 @@ public class KnowledgeBase {
 		// - If NOT(statement) already exists in our KnowledgeBase, the statement is disproven
 		// - By doing setProven/setDisproven, we trigger an algorithm that "propagates" the new proven/disproven value
 		//   of the statement to all statements that depend on it.
-		while(workQueue.size() > 0) {
+		int i = 0;
+		while(workQueue.size() > 0 && i < 10) {
+			i++;
 			ProofSearchTree.Node currentNode = workQueue.remove();
 			Statement currentStatement = currentNode.getStatement();
 			
@@ -67,6 +69,9 @@ public class KnowledgeBase {
 				}
 			}
 		}
+		
+		ProofSearchTreeViewer view = new ProofSearchTreeViewer();
+		view.display(tree);
 		
 		return tree.getRoot().getResult();
 	}

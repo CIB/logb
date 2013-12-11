@@ -103,7 +103,7 @@ public class Rule {
 			
 			Pattern tmpPattern = new Pattern();
 			tmpPattern.setRoot(dependency);
-			tmpPattern.substitute(substitutions);
+			tmpPattern = tmpPattern.substitute(substitutions);
 			
 			// We know it's a Statement because we just set the root
 			// with pattern.setRoot, and substitute only changes variables,
