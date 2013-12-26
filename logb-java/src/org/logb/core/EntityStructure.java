@@ -1,6 +1,7 @@
 package org.logb.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -86,10 +87,15 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 		}
 		
 		String rval = "{";
-		for(String key : this.keySet()) {
+		Iterator<String> iter = this.keySet().iterator();
+		while(iter.hasNext()) {
+			String key = iter.next();
 			EntityStructureBase child = this.get(key);
-			rval += child.toString();
-			rval += ", ";
+			rval += key + " = " + child.toString();
+			
+			if(iter.hasNext()) {
+				rval += ", ";
+			}
 		}
 		rval += "}";
 		return rval;

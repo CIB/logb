@@ -1,5 +1,21 @@
 package org.logb;
 
+/**
+ * And { lefthand:A, righthand:A }
+ * And { A, A }
+ * And { And { A, A }, A}
+ * 
+ * And {
+ *   And { A, A },
+ *   A
+ * }
+ * 
+ * And (
+ *   And (A, A )
+ *   A
+ * )
+ */
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +46,8 @@ public class Test {
 		Variable Y = testPattern.addVariable("Y");
 		
 		EntityStructure andStructure = new EntityStructure();
-		andStructure.put("lefthand",  X);
-		andStructure.put("righthand", Y);
+		andStructure.put("0",  X);
+		andStructure.put("1", Y);
 		
 		Statement myAnd = new Statement(st_And, andStructure);
 		testPattern.setRoot(myAnd);

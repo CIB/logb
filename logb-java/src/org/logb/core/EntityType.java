@@ -16,7 +16,7 @@ public class EntityType {
 	 * @param name The name of the entity type. Should be unique within its module.
 	 * @param mod The module to put the entity type in.
 	 */
-	EntityType(String name, Module mod, boolean hasPointer, boolean hasStructure) {
+	public EntityType(String name, Module mod, boolean hasPointer, boolean hasStructure) {
 		this.name = name;
 		this.mod = mod;
 		this.hasPointer = hasPointer;

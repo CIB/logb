@@ -6,11 +6,14 @@ public class Statement extends Entity {
 	public static void initialize() {
 		ENTITY_TYPE_STATEMENT = new EntityType("Statement", new Module("Core"), false, true);
 	}
+	
+	public Statement(StatementType type) {
+		this(type, null);
+	}
 
 	public Statement(StatementType type, EntityStructureBase arguments) {
 		super(ENTITY_TYPE_STATEMENT);
 		this.statementType = type;
-		this.setStructure(arguments);
 	}
 
 	@Override
