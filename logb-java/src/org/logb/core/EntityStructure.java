@@ -86,7 +86,7 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 			return "";
 		}
 		
-		String rval = "{";
+		String rval = "(";
 		Iterator<String> iter = this.keySet().iterator();
 		while(iter.hasNext()) {
 			String key = iter.next();
@@ -97,7 +97,7 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 				rval += ", ";
 			}
 		}
-		rval += "}";
+		rval += ")";
 		return rval;
 	}
 }
