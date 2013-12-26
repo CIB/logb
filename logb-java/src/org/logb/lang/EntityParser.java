@@ -1,4 +1,4 @@
-package org.logb.view;
+package org.logb.lang;
 
 import grammar.EntityGrammarBaseVisitor;
 import grammar.EntityGrammarParser;
