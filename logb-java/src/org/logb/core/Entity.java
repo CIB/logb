@@ -36,6 +36,7 @@ public class Entity implements EntityStructureBase {
 
 	public void setStructure(EntityStructureBase structure) {
 		assert (type.hasStructure());
+		assert (!(structure instanceof Entity));
 		this.structure = structure;
 	}
 

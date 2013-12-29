@@ -56,8 +56,7 @@ public class Test {
 		
 		EntityStructureBase andStructure = parser.parse("And(lefthand=X(), righthand=Y())");
 		
-		Statement myAnd = new Statement(st_And, andStructure);
-		testPattern.setRoot(myAnd);
+		testPattern.setRoot(andStructure);
 		
 		Map<String,EntityStructureBase> substitutions = new HashMap<String,EntityStructureBase>();
 		substitutions.put("X", A);
@@ -75,14 +74,13 @@ public class Test {
 		variables.clear(); variables.add(F);
 		parser = new EntityParser(m_Test.getEntityTypes(), m_Test.getStatementTypes(), variables);
 		andStructure = parser.parse("And(lefthand=F(), righthand=F()");
-		Statement ruleAnd = new Statement(st_And, andStructure);
-		myRule.addDependency(ruleAnd);
+		myRule.addDependency((Statement) andStructure);
 		myRule.setConclusion(F);
 		
 		kb.addRule(myRule);
 		parser = new EntityParser(m_Test.getEntityTypes(), m_Test.getStatementTypes(), variables);
 		andStructure = parser.parse("And(lefthand=A(), righthand=A()");
-		kb.addStatement(new Statement(st_And, andStructure));
+		kb.addStatement((Statement) andStructure);
 		
 		System.out.println(kb.inferStatement(A));
 	}
