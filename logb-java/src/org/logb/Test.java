@@ -16,7 +16,9 @@ package org.logb;
  * )
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.logb.core.EntityStructure;
@@ -28,11 +30,14 @@ import org.logb.core.Rule;
 import org.logb.core.Statement;
 import org.logb.core.StatementType;
 import org.logb.core.Variable;
+import org.logb.lang.EntityParser;
 
 public class Test {
 
 	public static void main(String[] args) {
 		Statement.initialize();
+		
+		List<Variable> variables = new ArrayList<Variable>();
 		
 		Module m_Test = new Module("Test");
 		StatementType st_And = new StatementType("And", m_Test);
@@ -44,10 +49,12 @@ public class Test {
 		Pattern testPattern = new Pattern();
 		Variable X = testPattern.addVariable("X");
 		Variable Y = testPattern.addVariable("Y");
+		variables.add(X);
+		variables.add(Y);
 		
-		EntityStructure andStructure = new EntityStructure();
-		andStructure.put("0",  X);
-		andStructure.put("1", Y);
+		EntityParser parser = new EntityParser(m_Test.getEntityTypes(), m_Test.getStatementTypes(), variables);
+		
+		EntityStructureBase andStructure = parser.parse("And(lefthand=X(), righthand=Y())");
 		
 		Statement myAnd = new Statement(st_And, andStructure);
 		testPattern.setRoot(myAnd);
@@ -65,17 +72,16 @@ public class Test {
 		KnowledgeBase kb = new KnowledgeBase();
 		Rule myRule = new Rule();
 		Variable F = myRule.addVariable("F");
-		andStructure = new EntityStructure();
-		andStructure.put("lefthand", F);
-		andStructure.put("righthand", F);
+		variables.clear(); variables.add(F);
+		parser = new EntityParser(m_Test.getEntityTypes(), m_Test.getStatementTypes(), variables);
+		andStructure = parser.parse("And(lefthand=F(), righthand=F()");
 		Statement ruleAnd = new Statement(st_And, andStructure);
 		myRule.addDependency(ruleAnd);
 		myRule.setConclusion(F);
 		
 		kb.addRule(myRule);
-		andStructure = new EntityStructure();
-		andStructure.put("lefthand", A);
-		andStructure.put("righthand", A);
+		parser = new EntityParser(m_Test.getEntityTypes(), m_Test.getStatementTypes(), variables);
+		andStructure = parser.parse("And(lefthand=A(), righthand=A()");
 		kb.addStatement(new Statement(st_And, andStructure));
 		
 		System.out.println(kb.inferStatement(A));

@@ -18,6 +18,14 @@ public class Module {
 	public void addStatementType(StatementType type) {
 		this.statementTypes.add(type);
 	}
+	
+	public List<EntityType> getEntityTypes() {
+		return entityTypes;
+	}
+	
+	public List<StatementType> getStatementTypes() {
+		return statementTypes;
+	}
 
 	private final String name;
 	private final List<EntityType> entityTypes = new ArrayList<EntityType>();

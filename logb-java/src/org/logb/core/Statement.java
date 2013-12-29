@@ -14,11 +14,16 @@ public class Statement extends Entity {
 	public Statement(StatementType type, EntityStructureBase arguments) {
 		super(ENTITY_TYPE_STATEMENT);
 		this.statementType = type;
+		setStructure(arguments);
 	}
 
 	@Override
 	public EntityStructureBase deepcopy() {
-		return new Statement(this.statementType, this.getStructure().deepcopy());
+		EntityStructureBase structure = null;
+		if(this.getStructure() != null) {
+			structure = this.getStructure().deepcopy();
+		}
+		return new Statement(this.statementType, structure);
 	}
 
 	@Override
@@ -35,7 +40,9 @@ public class Statement extends Entity {
 	@Override
 	public String toString() {
 		String rval = statementType.getName();
-		rval += " " + getStructure().toString();
+		if(getStructure() != null) {
+			rval += " " + getStructure().toString();
+		}
 		return rval;
 	}
 
