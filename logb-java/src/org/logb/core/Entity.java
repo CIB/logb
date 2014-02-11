@@ -38,13 +38,22 @@ public class Entity implements EntityStructureBase {
 		assert (type.hasStructure());
 		assert (!(structure instanceof Entity));
 		this.structure = structure;
+		
+		// If it's expected to have a structure, always give it a structure,
+		// if empty.
+		if(structure == null && this.type.hasStructure()) {
+			this.structure = new EntityStructure();
+		}
 	}
 
 	@Override
 	public EntityStructureBase deepcopy() {
 		Entity copy = new Entity(this.type);
 		copy.setPointer(this.pointer);
-		copy.setStructure(this.structure.deepcopy());
+		
+		if(this.structure != null) {
+			copy.setStructure(this.structure.deepcopy());
+		}
 		return copy;
 	}
 

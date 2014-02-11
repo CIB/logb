@@ -89,6 +89,10 @@ public class Pattern {
 	 * @return A new pattern with the given variables substituted.
 	 */
 	public Pattern substitute(Map<String, EntityStructureBase> substitutions) {
+		/*for(String key : substitutions.keySet()) {
+			System.out.println("Substituting key "+key+" with value "+substitutions.get(key).toString());
+		}*/
+		
 		Pattern copy = this.deepcopy();
 		copy.setRoot(copy.root.substitute(substitutions));
 		

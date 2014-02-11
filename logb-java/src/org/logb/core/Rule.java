@@ -58,7 +58,7 @@ public class Rule {
 	 * 
 	 * @param dependency The statement to add as dependency for the rule
 	 */
-	public void addDependency(Statement dependency) {
+	public void addDependency(EntityStructureBase dependency) {
 		dependencies.add(dependency);
 	}
 

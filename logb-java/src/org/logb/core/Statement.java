@@ -34,7 +34,7 @@ public class Statement extends Entity {
 
 		Statement other = (Statement) otherBase;
 		return other.statementType.equals(this.statementType)
-				&& other.getStructure().equals(this.getStructure());
+				&& this.getStructure().equals(other.getStructure());
 	}
 	
 	@Override

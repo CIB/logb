@@ -19,6 +19,10 @@ public class Module {
 		this.statementTypes.add(type);
 	}
 	
+	public void addRule(Rule rule) {
+		rules.add(rule);
+	}
+	
 	public List<EntityType> getEntityTypes() {
 		return entityTypes;
 	}
@@ -26,8 +30,13 @@ public class Module {
 	public List<StatementType> getStatementTypes() {
 		return statementTypes;
 	}
+	
+	public List<Rule> getRules() {
+		return rules;
+	}
 
 	private final String name;
 	private final List<EntityType> entityTypes = new ArrayList<EntityType>();
 	private final List<StatementType> statementTypes = new ArrayList<StatementType>();
+	private final List<Rule> rules = new ArrayList<Rule>();
 }

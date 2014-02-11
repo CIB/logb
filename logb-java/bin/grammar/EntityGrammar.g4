@@ -5,7 +5,7 @@ parse
  ;
 
 entity
- : ID OPEN assignments? CLOSE
+ : ID (OPEN assignments? CLOSE)?
  ;
  
 assignments

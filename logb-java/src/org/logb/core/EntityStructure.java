@@ -19,7 +19,7 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 		EntityStructure copy = new EntityStructure();
 		for (String key : this.keySet()) {
 			EntityStructureBase value = this.get(key).deepcopy();
-			this.put(key, value);
+			copy.put(key, value);
 		}
 		return copy;
 	}

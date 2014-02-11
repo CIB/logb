@@ -50,8 +50,6 @@ public class KnowledgeBase {
 			ProofSearchTree.Node currentNode = workQueue.remove();
 			Statement currentStatement = currentNode.getStatement();
 			
-			System.out.println("Working on "+currentStatement);
-			
 			for(Statement other : statements) {
 				if(other.equals(currentNode.getStatement())) {
 					currentNode.setProven();
@@ -61,6 +59,7 @@ public class KnowledgeBase {
 			
 			for(Rule rule : rules) {
 				Map<String,EntityStructureBase> substitutions = rule.getConclusionPattern().match(currentStatement);
+				
 				if(substitutions != null) {
 					currentNode.addAlternative(rule.getDependencies(substitutions));
 				}
@@ -77,5 +76,11 @@ public class KnowledgeBase {
 		view.display(tree);
 		
 		return tree.getRoot().getResult();
+	}
+	
+	public void addModule(Module module) {
+		for(Rule rule : module.getRules()) {
+			rules.add(rule);
+		}
 	}
 }

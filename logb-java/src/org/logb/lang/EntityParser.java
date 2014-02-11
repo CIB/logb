@@ -19,12 +19,24 @@ import org.logb.core.Statement;
 import org.logb.core.StatementType;
 import org.logb.core.Variable;
 
+/** Parses textual descriptions of entity structures.
+ * 
+ * Identifiers are interpreted as either variable names, entity types or statement types,
+ * and are picked from the lists supplied to this class in the constructor.
+ */
 public class EntityParser {
 
 	private List<EntityType> entityTypes;
 	private List<StatementType> statementTypes;
 	private List<Variable> variables;
 
+	/**
+	 * Create a new entity parser with the given pools of identifiers.
+	 * 
+	 * @param entityTypes The entity types that an identifier can represent.
+	 * @param statementTypes The statement types that an identifier can represent.
+	 * @param variables The variable types that an identifier can represent.
+	 */
 	public EntityParser(List<EntityType> entityTypes,
 			List<StatementType> statementTypes, List<Variable> variables) {
 		this.entityTypes = entityTypes;
@@ -32,6 +44,9 @@ public class EntityParser {
 		this.variables = variables;
 	}
 	
+	/**
+	 * Parse the given string into an entity structure and return it.
+	 */
 	public EntityStructureBase parse(String text) {
         EntityGrammarLexer lexer = new EntityGrammarLexer(new ANTLRInputStream(text));
         EntityGrammarParser parser = new EntityGrammarParser(new CommonTokenStream(lexer));
@@ -65,7 +80,7 @@ public class EntityParser {
 
 		EntityStructure structure = new EntityStructure();
 
-		if (rval instanceof Entity) {
+		if (rval instanceof Entity && tree.getChild(2) != null) {
 			ParseTree assignments = tree.getChild(2);
 			for (int i = 0; i < assignments.getChildCount(); i+=2) {
 				// i+=2 because the separating commas are also children
