@@ -8,15 +8,14 @@ Formal logic(and more specifically, high order logic) provides us with the neces
 
 Furthermore, logb extends this basic format with a few concepts:
 
-* Entity structures: Entities that "contain" entities, compare to structs in C
-* Functions: A method to hook external logic into logb(using a function interface)
-* Patterns: A way to specify sets of statements and entities by introducing "variables" into them
+* Entity structures: Entities that "contain" entities, comparable to structs in C.
+* Patterns: A way to specify sets of statements and entities by introducing "variables" into them. Comparable in functionality to "queries" in prolog.
 
 # Modules
 
-Since logb is not maths, but rather a practical tool, it does not limit itself to mathematical axioms and tools. This means that for any one problem domain, certain assumptions and definitions must be made about the domain. For instance, when dealing with rendering, we'll want to make assumptions about how data in the framebuffer relates to the image displayed on the screen and so on. These kinds of assumptions are stored in a module, making them easy to plug in and out.
+Since logb is not a formal mathematics tool, but rather a practical tool, it does not limit itself to mathematical axioms and tools. This means that for any one problem domain, certain assumptions and definitions can be made about the domain. For instance, when dealing with rendering, we'll want to make assumptions about how data in the framebuffer relates to the image displayed on the screen and so on. These kinds of assumptions are stored in a module, making them easy to plug in and out.
 
-All entity types, statement types, functions and axioms must be defined in a module. These are all up to the programmer of the module - logb itself has no way of verifying that the definitions in the module match their real-world counterparts, rather this is the assumption which enables logb to make accurate inferences in the first place.
+All entity types, statement types and axioms must be defined in a module. These are all up to the programmer of the module - logb itself has no way of verifying that the definitions in the module match their real-world counterparts, rather this is the assumption which enables logb to make accurate inferences in the first place.
 
 # Entities
 
@@ -32,7 +31,7 @@ Every entity has a type, e.g. "Integer". "outside" entities have a data pointer,
 
 # Statements
 
-A statement connects entities. You can imagine entities as "nodes" and statements as "edges"(this analogy only goes so far, since statements themselves are also entities). Inferences, or "thinking", in logb consists mostly of creating new statements from existing ones, so statements are a vital part of the system.
+A statement connects entities. You can imagine entities as "nodes" and statements as "edges"(this analogy isn't perfect, as statements themselves are also entities). Inferences, or "thinking", in logb consists mostly of creating new statements from existing ones, so statements are a vital part of the system.
 
 Examples of statements:
 
@@ -47,9 +46,9 @@ The `ForAll` example makes use of patterns, which we'll discuss in detail later.
 
 # Patterns
 
-Patterns are a way to describe groups of entities(usually statements). Where regular entities can only contain other entities, e.g. `And(A, B)` where `A` and `B` are atomic entities, patterns can contain "placeholders"(variables) in any place where an entity might be. For example, a pattern with the placeholder `%A` could be `AND(%A, B)`. Since `%A` is a placeholder, not an entity, we can 'replace' it, for example replacing `%A` with `foo` would lead to `AND(foo, B)`.
+Patterns are a way to describe groups of entities(usually statements). Where regular entities can only contain other entities, e.g. `And(A, B)` where `A` and `B` are atomic entities, patterns can contain "placeholders"(variables) in any place where an entity can be placed. For example, a pattern with the placeholder `%A` could be `AND(%A, B)`. Since `%A` is a placeholder, not an entity, we can 'replace' it, for example replacing `%A` with `foo` would lead to `AND(foo, B)`.
 
-As you can probably see, a pattern can be seen as a function, which takes a "setting" for each of its "placeholders" and yields an entity. For instance, let's call our previous example "patternA":
+As you can probably see, a pattern can be seen as a function, which takes an "assignment" for each of its "parameters" and yields an entity. For instance, let's call our previous example "patternA":
 
     patternA(%A) := AND(%A, B)
 
@@ -59,9 +58,9 @@ We defined this pattern much like one might define a mathematical function. We c
     patternA(%A = "foo")    -> AND("foo", B)
     patternA(%A = B)        -> AND(B, B)
 
-As patterns can have multiple different "placeholders", we might also only replace part of them.
+As patterns can have multiple different "placeholders", we might also replace only a few of these placeholders.
 
-    patternAB(%A, %B) := AND(A, B)
+    patternAB(%A, %B) := AND(%A, %B)
 
     patternAB(%A = FOO, %B = BAR) -> AND(FOO, BAR)
     patternAB(%A = FOO)           -> AND(FOO, %B)
@@ -72,15 +71,21 @@ The last two examples are fundamentally different. `AND(FOO, BAR)` is a simple s
 
 ## Pattern Constraints
 
-Patterns can place constraints on their variables. For instance, in a pattern `GreaterOrEqual(%A, 10)`, you might want to specify that the replacement for `%A` must be in the set of positive integer. This is actually similar to one of our earlier examples.
+Patterns can place constraints on their variables. For instance, in a pattern `GreaterOrEqual(%A, 10)`, you might want to specify that the replacement for `%A` must be in the set of positive integers.
 
     positivePattern(%X) := GreaterOrEqual(%X, 0) WHERE IsElement(%X, PosIntegers)
 
-The additional `WHERE` clause specifies that `%X` can only be substituted with something that matches the clause. For instance, `%X = 10` is possible, as `10` is a positive integer. However, `%X = "foo"` is not possible. If we compare this to our previous "function analogy", we now have a *partial function*: Some combinations of variable replacements, those that don't match the constraints, just aren't mapped by our pattern.
+The first part of the pattern should be familiar. It's a simple pattern with the variable `%X`. The additional `WHERE` clause specifies that `%X` can only be substituted with something that matches the clause. For instance, `%X = 10` is possible, as `10` is a positive integer. However, `%X = "foo"` is not possible. If we compare this to our previous "function analogy", we now have a *partial function*: Some combinations of variable replacements, those that don't match the constraints, just aren't mapped by our pattern.
 
 ## Querying
 
-Since a pattern describes a whole set of entities, we can use it to *query* for *matching* entities. The simplest way to do so is to take a list of entities, and one by one check for each entity in the list whether it matches the pattern. More elaborate methods will be discussed later, when we talk about `generators`.
+Since a pattern describes a whole set of entities, we can use it to *query* for *matching* entities. The simplest way to do so is to take a list of entities, and one by one check for each entity in the list whether it matches the pattern. For example, we have the following set of statements:
+
+ISGREATER(5, 2)
+ISGREATER(4, 2)
+ISGREATER(3, 2)
+
+Now we'd like to know a number smaller than 3. To do this, we simply create a pattern: `QUERY(%X) := ISGREATER(3, %X)`. For any entity that we can substitute for `%X` and receive an existing(true) statement, we know that entity is smaller than 3. If we insert `QUERY(%X = 2)`, we get `ISGREATER(3, 2)`, which is indeed a valid statement. Thus, `%X = 2` is the result of our query, and we can transfer this back into our natural language: "2 is smaller than 3".
 
 ## Pattern Matching
 
@@ -90,32 +95,6 @@ The pattern matching algorithm isn't trivial, so I'll explain it here. Input to 
     2. If the node in the pattern is a variable, the variable can be substituted with the node in the entity. For this, it has to match constraints and not violate previous assignments to that variable.
 
 The process gets much more complex when the entity to match is itself a pattern. `TODO`
-
-# Functions
-
-Functions are a simple way to represent external information and algorithms in logb's symbolic format. Imagine, for instance, trying to represent integer addition. We could write down all integers as `1:=Succ(0)`, but then writing down `1000+1000` would be incredibly inefficient. Instead, we can write them down as numbers(atomic entities) and use functions to operate on them.
-
-    EQUALS(!ADD(Integer(1000), Integer(1000)), Integer(2000))
-
-We can actually prove this statement by resolving the function to its value(`Integer(2000)`), which would transform the above statement to:
-
-    EQUALS(Integer(2000), Integer(2000))
-
-## Function Declarations
-
-Functions are declared as parts of modules, usually along with the entity types they operate on. For instance, the previous `!ADD` function would be declared in the same module as the basic integer entity type.
-
-Functions are another type of structural entity. In fact, they behave a lot like statements, in that they have a type and a list of arguments. Thus we can make assumptions about them.
-
-    FORALL %X IN Integers, %Y IN Integers: GreaterOrEqual(%X, 0) => GreaterOrEqual(!ADD(%X, %Y), %Y)
-
-Or in words: If you add a number >= 0 to another number, then the result is >= that other number.
-
-## Function Implementations
-
-logb will always ask an external implementation to evaluate a function for it. logb itself makes no assumptions about the language, programming environment etc. used. In theory, a human could do the function evaluation and it'd still be valid.
-
-In this, function implementations are comparable to external values attached to entities. In `!ADD(Integer(1), Integer(1))`, the implementation of `!ADD` and the numeric value `1` won't be visible to logb, but logb can still pass the `Integer` entities on to the `!ADD` implementation. The `!ADD` implementation will then extract the numeric values, calculate the result, and return that result wrapped in a new `Integer` entity.
 
 # Inference
 
@@ -151,7 +130,7 @@ We can then recursively keep looking for these patterns, until we find a stateme
 
 # Logical operators
 
-Logical operators are very fundamental statements that will be seen in any form of logical reasoning. They thus form an integral(although modular) part of logb. We will also introduce more readable ways to write out these oeprators, which we will use in some of the informal examples. However, these informal ways to write the operators might not become part of logb's formal specification.
+Logical operators are very fundamental statements that will be seen in any form of logical reasoning. They thus form an integral(although modular) part of logb. We will also introduce more readable ways to write out these oeprators, which we will use in some of the informal examples. However, these informal ways to write the operators might not become part of logb's language.
 
 ## And(A, B)
 
@@ -241,13 +220,15 @@ This is written intentionally explicitly, to show you what is happening. Usually
 
 So let's try that example. Can we substitute anything for `%A` and receive a true statement?
 
-    fishSwims(dog)      --> isFish(dog) => swims(dog)
+    fishSwims(dog) = isFish(dog) => swims(dog)
 
 Well, a dog doesn't swim, but since a dog is also not a fish, the implication still yields true.
 
-    fishSwims(salmon)   --> isFish(salmon) => swims(salmon)
+    fishSwims(salmon) = isFish(salmon) => swims(salmon)
+    
+This seems to ring true enough.
 
-If the set of entities that `ForAll` can choose from is finite, we can algorithmically convert it.
+If the set of entities that `ForAll` can choose from is finite, we can easily convert it to a statement without ForAll.
 
     Foo := {1, 2, 3}
 
