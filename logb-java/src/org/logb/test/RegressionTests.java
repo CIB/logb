@@ -1,7 +1,11 @@
 package org.logb.test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +15,8 @@ import org.logb.core.EntityType;
 import org.logb.core.Module;
 import org.logb.core.Statement;
 import org.logb.core.StatementType;
+import org.logb.core.Variable;
+import org.logb.lang.EntityParser;
 
 public class RegressionTests {
 	private EntityType typeA;
@@ -28,11 +34,12 @@ public class RegressionTests {
 		typeB = new EntityType("B", testModule, true, false);
 		typeD = new EntityType("D", testModule, false, false);
 		typeC = new StatementType("C", testModule);
-		AND = new StatementType("AND", testModule);
+		AND = new StatementType("And", testModule);
 	}
 	
 	@Test
-	public void testEquality1() {
+	public void testEqualityEntities() {
+		// Create several entities and compare them.
 		Entity one = new Entity(typeA);
 		EntityStructure structureOne = new EntityStructure();
 		structureOne.put("foo", new Entity(typeB));
@@ -55,7 +62,8 @@ public class RegressionTests {
 	}
 
 	@Test
-	public void testEquality2() {
+	public void testEqualityStatements() {
+		// Create several statements and compare them.
 		Entity and = new Statement(AND);
 		Statement left = new Statement(typeC);
 		Statement right = new Statement(typeC);
@@ -81,5 +89,31 @@ public class RegressionTests {
 		assertTrue(and.equals(and2));
 	}
 
+	@Test
+	public void testParser() {
+		// Manual setup of entities to compare with.
+		Entity and = new Statement(AND);
+		Statement left = new Statement(typeC);
+		Statement right = new Statement(typeC);
+		EntityStructure andStructure = new EntityStructure();
+		andStructure.put("lefthand", left);
+		andStructure.put("righthand", right);
+		and.setStructure(andStructure);
+
+		Entity two = new Entity(typeA);
+		EntityStructure structureTwo = new EntityStructure();
+		structureTwo.put("foo", new Entity(typeB));
+		two.setStructure(structureTwo);
+		
+		// Setting up our actual parser.
+		List<StatementType> statementTypes = testModule.getStatementTypes();
+		List<Variable> variables = new ArrayList<Variable>();
+		EntityParser parser = new EntityParser(testModule.getEntityTypes(), statementTypes, variables);
+		Statement and2 = (Statement) parser.parse("And(lefthand=C, righthand=C)");
+		
+		assertNotNull(and2);
+		assertFalse(two.equals(and));
+		assertTrue(and.equals(and2));
+	}
 	
 }

@@ -54,7 +54,8 @@ public class Variable implements EntityStructureBase {
 		}
 	}
 	
-	@Override public String toString() {
+	@Override 
+	public String toString() {
 		return getName();
 	}
 }
