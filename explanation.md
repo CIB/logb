@@ -81,9 +81,9 @@ The first part of the pattern should be familiar. It's a simple pattern with the
 
 Since a pattern describes a whole set of entities, we can use it to *query* for *matching* entities. The simplest way to do so is to take a list of entities, and one by one check for each entity in the list whether it matches the pattern. For example, we have the following set of statements:
 
-ISGREATER(5, 2)
-ISGREATER(4, 2)
-ISGREATER(3, 2)
+	ISGREATER(5, 2)
+	ISGREATER(4, 2)
+	ISGREATER(3, 2)
 
 Now we'd like to know a number smaller than 3. To do this, we simply create a pattern: `QUERY(%X) := ISGREATER(3, %X)`. For any entity that we can substitute for `%X` and receive an existing(true) statement, we know that entity is smaller than 3. If we insert `QUERY(%X = 2)`, we get `ISGREATER(3, 2)`, which is indeed a valid statement. Thus, `%X = 2` is the result of our query, and we can transfer this back into our natural language: "2 is smaller than 3".
 
