@@ -37,7 +37,8 @@ public class KnowledgeBase {
 		
 		// Create a work queue. The work queue is there to implement a breadth first search on our proof search tree.
 		Queue<ProofSearchTree.Node> workQueue = new LinkedList<ProofSearchTree.Node>();
-		workQueue.add(tree.getRoot());
+		ProofSearchTree.Node root = tree.getRoot();
+		workQueue.add(root);
 		
 		// One by one, check nodes in the work queue.
 		// - If the statement already exists in our KnowledgeBase, the statement is proven
@@ -70,6 +71,15 @@ public class KnowledgeBase {
 					workQueue.add(dependency);
 				}
 			}
+			
+			// If our initial statement we were looking for has been proven, no need to
+			// do anything else.
+			if(root.getResult() == ProofSearchTree.Result.PROVEN) {
+				break;
+			}
+			
+			// TODO: an algorithm that smartly removes any nodes that are no longer necessary
+			//       to prove from the work queue, and also to sort statements by relevance
 		}
 		
 		ProofSearchTreeViewer view = new ProofSearchTreeViewer();
