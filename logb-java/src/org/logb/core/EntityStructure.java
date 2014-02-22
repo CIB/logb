@@ -61,6 +61,9 @@ public class EntityStructure extends HashMap<String, EntityStructureBase>
 	@Override
 	public boolean match(EntityStructureBase entityToMatchBase,
 			Map<String, EntityStructureBase> substitutions) {
+		
+		// at the moment it's not possible to have variables represent the whole
+		// "argument list" of an entity, e.g. `foo(%X)` where `%X` could be `A=1, B=2`
 		if(!(entityToMatchBase instanceof EntityStructure)) {
 			return false;
 		}

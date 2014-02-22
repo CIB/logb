@@ -98,6 +98,12 @@ public class Entity implements EntityStructureBase {
 	@Override
 	public boolean match(EntityStructureBase entityToMatchBase,
 			Map<String, EntityStructureBase> substitutions) {
+		
+		if(entityToMatchBase instanceof Variable) {
+			// If the other is a variable, try to substitute that variable with `this`.
+			return ((Variable) entityToMatchBase).match(this, substitutions);
+		}
+		
 		if (!(entityToMatchBase instanceof Entity)) {
 			return false;
 		}
