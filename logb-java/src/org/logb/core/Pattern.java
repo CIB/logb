@@ -110,16 +110,31 @@ public class Pattern {
 	}
 	
 	/**
+	 * The result of a two-way watch between two entity structures.
+	 */
+	public class MatchResult {
+		/** Matches from variables of the left-hand entity to values
+		 *  of the right-hand entity.
+		 */
+		public Map<String, EntityStructureBase> leftToRightMatches = new HashMap<>();
+		
+		/** Matches from variables of the right-hand entity to values
+		 *  of the left-hand entity.
+		 */
+		public Map<String, EntityStructureBase> rightToLeftMatches = new HashMap<>();
+	}
+	
+	/**
 	 * Checks whether the given entity matches this pattern, and if so, returns the mapping
 	 * of variables to entities that satisfies the match.
 	 * 
 	 * @param entityToMatch The entity that should be matched by this pattern.
 	 * @return A map variable name -> entity that satisfies the match, or null if this pattern doesn't match it.
 	 */
-	public Map<String, EntityStructureBase> match(EntityStructureBase entityToMatch) {
-		Map<String, EntityStructureBase> substitutions = new HashMap<String, EntityStructureBase>();
-		if(root.match(entityToMatch, substitutions)) {
-			return substitutions;
+	public MatchResult match(EntityStructureBase entityToMatch) {
+		MatchResult matchResult = new MatchResult();
+		if(root.match(entityToMatch, matchResult.leftToRightMatches) && entityToMatch.match(root, matchResult.rightToLeftMatches)) {
+			return matchResult;
 		} else {
 			return null;
 		}
