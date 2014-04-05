@@ -131,8 +131,21 @@ public class Entity implements EntityStructureBase {
 		}
 		return rval;
 	}
+	
+	public EntityType getType() {
+		return type;
+	}
+
+	public void setType(EntityType type) {
+		this.type = type;
+	}
+	
+	public String getDisplayName() {
+		return type.getName();
+	}
 
 	private EntityType type;
+
 	private Object pointer;
 	private EntityStructureBase structure;
 }

@@ -34,10 +34,9 @@ public class ModuleLogicTests {
 		statementTypes.add(st_B);
 		EntityParser parser = new EntityParser(mLogic.getEntityTypes(), statementTypes, new ArrayList<Variable>());
 		Statement testStatement = (Statement) parser.parse("And(lefthand=A, righthand=A)");
-		Statement toInfer = (Statement) parser.parse("A");
 		
 		Pattern conclusionPattern = MLogic.andElimination.getConclusionPattern();
-		Map<String, EntityStructureBase> substitutions = conclusionPattern.match(testStatement);
+		Map<String, EntityStructureBase> substitutions = conclusionPattern.match(testStatement).leftToRightMatches;
 		assertTrue(substitutions != null);
 		
 		/*for(String key : substitutions.keySet()) {

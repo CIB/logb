@@ -45,6 +45,10 @@ public class Statement extends Entity {
 		}
 		return rval;
 	}
+	
+	public String getDisplayName() {
+		return statementType.getName();
+	}
 
 	private final StatementType statementType;
 }

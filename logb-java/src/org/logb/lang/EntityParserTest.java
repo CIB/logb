@@ -16,7 +16,7 @@ import org.logb.core.StatementType;
 import org.logb.core.Variable;
 
 public class EntityParserTest {
-    public static void main(String[] args) throws Exception {
+    public void testParser() throws Exception {
         Module testModule = new Module("TestModule");
         EntityType testType = new EntityType("TestEntityType", testModule, true, true);
         List<EntityType> entityTypes = new ArrayList<EntityType>();

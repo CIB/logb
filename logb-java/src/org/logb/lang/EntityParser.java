@@ -85,7 +85,6 @@ public class EntityParser {
 			for (int i = 0; i < assignments.getChildCount(); i+=2) {
 				// i+=2 because the separating commas are also children
 				ParseTree assignment = assignments.getChild(i);
-				System.out.println(assignment.getText());
 
 				String key = assignment.getChild(0).getText();
 				EntityStructureBase value = recursiveParse(assignment

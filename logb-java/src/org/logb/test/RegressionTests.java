@@ -1,6 +1,5 @@
 package org.logb.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -133,7 +132,7 @@ public class RegressionTests {
 		
 		Pattern pattern = new Pattern(); pattern.setRoot(andPattern);
 		
-		Map<String, EntityStructureBase> substitutions = pattern.match(andInstance);
+		Map<String, EntityStructureBase> substitutions = pattern.match(andInstance).leftToRightMatches;
 		
 		assertNotNull(substitutions);
 		assertNotNull(substitutions.get("X"));
@@ -155,7 +154,7 @@ public class RegressionTests {
 		
 		Pattern pattern = new Pattern(); pattern.setRoot(andPattern);
 		
-		Map<String, EntityStructureBase> substitutions = pattern.match(andInstance);
+		Map<String, EntityStructureBase> substitutions = pattern.match(andInstance).leftToRightMatches;
 		
 		assertNotNull(substitutions);
 		assertNotNull(substitutions.get("X"));

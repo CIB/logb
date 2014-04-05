@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.logb.core.Pattern.MatchResult;
 import org.logb.view.ProofSearchTreeViewer;
 
 /**
@@ -59,10 +60,10 @@ public class KnowledgeBase {
 			}
 			
 			for(Rule rule : rules) {
-				Map<String,EntityStructureBase> substitutions = rule.getConclusionPattern().match(currentStatement);
+				MatchResult substitutions = rule.getConclusionPattern().match(currentStatement);
 				
 				if(substitutions != null) {
-					currentNode.addAlternative(rule.getDependencies(substitutions));
+					currentNode.addAlternative(rule.getDependencies(substitutions.leftToRightMatches));
 				}
 			}
 			
