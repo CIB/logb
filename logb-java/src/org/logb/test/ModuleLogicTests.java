@@ -1,6 +1,7 @@
 package org.logb.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import org.logb.core.EntityStructureBase;
 import org.logb.core.Module;
 import org.logb.core.Pattern;
+import org.logb.core.Pattern.MatchResult;
 import org.logb.core.Statement;
 import org.logb.core.StatementType;
 import org.logb.core.Variable;
@@ -33,10 +35,13 @@ public class ModuleLogicTests {
 		statementTypes.add(st_A);
 		statementTypes.add(st_B);
 		EntityParser parser = new EntityParser(mLogic.getEntityTypes(), statementTypes, new ArrayList<Variable>());
+		
 		Statement testStatement = (Statement) parser.parse("And(lefthand=A, righthand=A)");
 		
 		Pattern conclusionPattern = MLogic.andElimination.getConclusionPattern();
-		Map<String, EntityStructureBase> substitutions = conclusionPattern.match(testStatement).leftToRightMatches;
+		MatchResult result = conclusionPattern.match(testStatement);
+		assertNotNull(result);
+		Map<String, EntityStructureBase> substitutions = result.leftToRightMatches;
 		assertTrue(substitutions != null);
 		
 		/*for(String key : substitutions.keySet()) {

@@ -2,6 +2,7 @@ package org.logb.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.logb.core.EntityStructureBase;
 import org.logb.core.EntityType;
 import org.logb.core.Module;
 import org.logb.core.Pattern;
+import org.logb.core.Pattern.MatchResult;
 import org.logb.core.Statement;
 import org.logb.core.StatementType;
 import org.logb.core.Variable;
@@ -154,13 +156,15 @@ public class RegressionTests {
 		
 		Pattern pattern = new Pattern(); pattern.setRoot(andPattern);
 		
-		Map<String, EntityStructureBase> substitutions = pattern.match(andInstance).leftToRightMatches;
+		MatchResult result = pattern.match(andInstance);
 		
-		assertNotNull(substitutions);
-		assertNotNull(substitutions.get("X"));
-		assertNotNull(substitutions.get("Y"));
-		assertTrue(substitutions.get("X").equals(new Statement(typeC)));
-		assertTrue(substitutions.get("Y").equals(new Entity(typeB)));
+		assertNotNull(result);
+		assertNotNull(result.leftToRightMatches.get("X"));
+		assertNotNull(result.rightToLeftMatches.get("Y"));
+		assertNull(result.leftToRightMatches.get("Y"));
+		assertNull(result.rightToLeftMatches.get("X"));
+		assertTrue(result.leftToRightMatches.get("X").equals(new Statement(typeC)));
+		assertTrue(result.rightToLeftMatches.get("Y").equals(new Entity(typeB)));
 	}
 	
 }

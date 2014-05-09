@@ -99,6 +99,10 @@ public class Entity implements EntityStructureBase {
 	public boolean match(EntityStructureBase entityToMatchBase,
 			Map<String, EntityStructureBase> substitutions) {
 		
+		if(entityToMatchBase instanceof Variable) {
+			return true;
+		}
+		
 		if (!(entityToMatchBase instanceof Entity)) {
 			return false;
 		}

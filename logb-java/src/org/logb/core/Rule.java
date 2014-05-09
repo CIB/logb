@@ -1,8 +1,10 @@
 package org.logb.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Inspired by prolog, this class represents a "ForAll implication". To be
@@ -110,6 +112,16 @@ public class Rule {
 			// not existing statements.
 			rval.add((Statement) tmpPattern.getRoot());
 		}
+		return rval;
+	}
+	
+	public Set<String> getVariableNames() {
+		Set<String> rval = new HashSet<>();
+		
+		for(Variable variable : variables) {
+			rval.add(variable.getName());
+		}
+		
 		return rval;
 	}
 
