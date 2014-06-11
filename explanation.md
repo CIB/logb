@@ -9,7 +9,7 @@ Formal logic(and more specifically, high order logic) provides us with the neces
 Furthermore, logb extends this basic format with a few concepts:
 
 * Entity structures: Entities that "contain" entities, comparable to structs in C.
-* Patterns: A way to specify sets of statements and entities by introducing "variables" into them. Comparable in functionality to "queries" in prolog.
+* Patterns: A way to specify sets of statements and entities by introducing "variables" into them. Comparable in functionality to "queries" and "rules" in prolog.
 
 # Modules
 
