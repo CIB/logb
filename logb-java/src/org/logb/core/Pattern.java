@@ -75,10 +75,16 @@ public class Pattern {
 		this.root = root;
 	}
 	
+	/**
+	 * Create a deep copy of this pattern, ensuring that modifying
+	 * the copy will have no effect on the original.
+	 * 
+	 * @return The deep copy of this pattern.
+	 */
 	public Pattern deepcopy() {
 		Pattern copy = new Pattern();
-		copy.variables = this.variables;
-		copy.root = this.root;
+		copy.variables = new ArrayList<>(this.variables);
+		copy.root = this.root.deepcopy();
 		return copy;
 	}
 	
@@ -89,13 +95,11 @@ public class Pattern {
 	 * @return A new pattern with the given variables substituted.
 	 */
 	public Pattern substitute(Map<String, EntityStructureBase> substitutions) {
-		/*for(String key : substitutions.keySet()) {
-			System.out.println("Substituting key "+key+" with value "+substitutions.get(key).toString());
-		}*/
-		
+		// Recursively substitute occurrences of variables with the provided substitutions.
 		Pattern copy = this.deepcopy();
 		copy.setRoot(copy.root.substitute(substitutions));
 		
+		// Remove all substituted variables from this pattern's variables.
 		for(String variableName : substitutions.keySet()) {
 			Iterator<Variable> variablesIterator = variables.iterator();
 			while(variablesIterator.hasNext()) {
@@ -133,7 +137,22 @@ public class Pattern {
 	 */
 	public MatchResult match(EntityStructureBase entityToMatch) {
 		MatchResult matchResult = new MatchResult();
-		if(root.match(entityToMatch, matchResult.leftToRightMatches) && entityToMatch.match(root, matchResult.rightToLeftMatches)) {
+		
+		// We first check whether the variables in the left-hand entity can be matched against something consistent
+		// in the right-hand entity. Then we check the same from right to left.
+		//
+		// Example:
+		// match A(%X, 2), A(10, %Y)
+		//
+		// First we match from left to right, which yields { %X = 10 }, 
+		//  we store this result in matchResult.leftToRightMatches
+		//
+		// Then we match from right to left, which yields  { %Y =  2 },
+		//  we store this result in matchResult.rightToLeftMatches
+		if(
+				root.match(entityToMatch, matchResult.leftToRightMatches) && 
+				entityToMatch.match(root, matchResult.rightToLeftMatches)
+		  ) {
 			return matchResult;
 		} else {
 			return null;

@@ -27,6 +27,7 @@ import org.logb.core.EntityStructure;
 import org.logb.core.EntityStructureBase;
 import org.logb.core.EntityType;
 import org.logb.core.Module;
+import org.logb.core.Pattern;
 import org.logb.core.Rule;
 import org.logb.core.Statement;
 import org.logb.core.StatementType;
@@ -40,6 +41,8 @@ public class InferenceGame extends JFrame {
 
 	JTree tree;
 	DefaultTreeModel model;
+	DefaultMutableTreeNode ruleContainer;
+	DefaultMutableTreeNode statementContainer;
 	
 	List<Statement> currentStatements = new ArrayList<>();
 	List<Rule> activeRules = new ArrayList<>();
@@ -120,6 +123,43 @@ public class InferenceGame extends JFrame {
 		tree.setModel(model);
 		add(tree, BorderLayout.CENTER);
 		addContextMenuListener();
+	}
+	
+	private void clear() {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+		ruleContainer = new DefaultMutableTreeNode("Rules");
+		root.add(ruleContainer);
+		statementContainer = new DefaultMutableTreeNode("Statements");
+		root.add(statementContainer);
+		model.setRoot(root);
+	}
+	
+	private void addRule(Rule rule) {
+		DefaultMutableTreeNode ruleNode = new DefaultMutableTreeNode(rule.getConclusionPattern().toString());
+		
+		DefaultMutableTreeNode variablesContainer = new DefaultMutableTreeNode("Variables");
+		for(String varName : rule.getVariableNames()) {
+			variablesContainer.add(new DefaultMutableTreeNode(varName));
+		}
+		
+		DefaultMutableTreeNode conclusionContainer = new DefaultMutableTreeNode();
+		displayEntityRecursive(conclusionContainer, rule.getConclusionPattern().getRoot());
+		
+		DefaultMutableTreeNode dependenciesContainer = new DefaultMutableTreeNode("Dependencies");
+		
+		for(Statement dependency : rule.getDependencies(new HashMap<String, EntityStructureBase>())) {
+			DefaultMutableTreeNode dependencyNode = new DefaultMutableTreeNode();
+			displayEntityRecursive(dependencyNode, dependency);
+		}
+		ruleNode.add(dependenciesContainer);
+		ruleNode.add(conclusionContainer);
+		ruleContainer.add(ruleNode);
+	}
+	
+	private void addStatement(Statement statement) {
+		DefaultMutableTreeNode container = new DefaultMutableTreeNode();
+		displayEntityRecursive(container, statement);
+		statementContainer.add(container);
 	}
 	
 	private void displayEntityRecursive(DefaultMutableTreeNode treeNode, EntityStructureBase node) {

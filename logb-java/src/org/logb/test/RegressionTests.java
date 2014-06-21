@@ -49,7 +49,6 @@ public class RegressionTests {
 		EntityStructure structureOne = new EntityStructure();
 		structureOne.put("foo", new Entity(typeB));
 		one.setStructure(structureOne);
-		
 
 		Entity two = new Entity(typeA);
 		EntityStructure structureTwo = new EntityStructure();
@@ -64,6 +63,7 @@ public class RegressionTests {
 		assertTrue(one.equals(two));
 		assertTrue(two.equals(one));
 		assertFalse(three.equals(one));
+		assertFalse(one.equals(three));
 	}
 
 	@Test
@@ -96,7 +96,9 @@ public class RegressionTests {
 
 	@Test
 	public void testParser() {
-		// Manual setup of entities to compare with.
+		// We create the statement And(C, C), once manually using constructors,
+		// and once by parsing the string "And(lefthand=C, righthand=C)".
+		// The two methods should yield equivalent statements.
 		Entity and = new Statement(AND);
 		Statement left = new Statement(typeC);
 		Statement right = new Statement(typeC);
