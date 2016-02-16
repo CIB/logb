@@ -1,0 +1,89 @@
+assume
+    x : Integer
+then
+    element_of(x, set([]))
+end
+
+assume
+    x : Integer,
+    y : Integer,
+then
+    not x < y
+equivalent
+    not element_of(x, set(constraint))
+    where
+        constraint = less_than(x, y)
+end
+
+assume
+    x : constraint,
+    xs : [constraint],
+    y = set(x : xs),
+    z : Integer,
+then
+    element_of(z, set(x : xs))
+equivalent
+    element_of(z, set(x)),
+    element_of(z, set(xs))
+end
+
+assume
+    x : Num,
+    y : Num,
+    x < y,
+    y < z
+then
+    x < z
+end
+
+assume
+    coefficients : [Integer]
+    length(coefficients) = length(variables) = n
+    formula = coefficients[1] * variables[1] + ... + coefficients[n] * variables[n]
+    c : Integer
+then
+    exists [x[1], ..., x[n]] where
+        coefficients[1] * x[1] + ... + coefficients[n] * x[n] = c
+equivalent
+    c % gcd(x[1], ..., x[n]) == 0
+end
+
+define z = x / y where
+    x : Integer
+    y : Integer
+    z : Integer
+as
+    y * z = x
+end
+
+define z = x * y where
+    x : Integer
+    y : Integer
+    z : Integer
+as
+    z = fold (+x) 0 [1..y]
+end
+
+query x where
+    x : set,
+    forall y
+        y : Int,
+        y > 0,
+        y < 100
+    have
+        element_of(y, x)
+    end
+end
+
+query x where
+    x : [Instruction]
+    foreach s
+        s : State
+        value(s, "a", 100)
+    have
+        run(x, s) = s2,
+        value(s2, "a", 150)
+    end
+narrow x1, x2
+    length(x1) < length(x2)
+end

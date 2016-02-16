@@ -1,0 +1,13 @@
+- shortest path problem
+- optimal schedule
+- efficient relational algebra
+- modifying pixels with rendering primitives
+- computing results of numeric expressions
+- optimizing algebraic expressions for numeric accuracy
+- Scala Spiral / Matrix Factorization Rules
+- Stencils
+- Compressions (express ways to compress as statements)
+- Break a "high-level" data exchange/database protocol down to something very bandwidth efficient
+- Scanning files for structure
+- Regular expressions / EBNF
+- Sorting lists

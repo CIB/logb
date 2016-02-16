@@ -1,0 +1,87 @@
+Any Identifier in an expression can be queried. Identifiers can represent entities or statements.
+
+The theoretical semantics of a query are the following: Every possible entity is tested in place of the identifier, and if no contradiction occurs, it is added to the result set.
+
+In practice, usually not all entities can be tried out. Thus heuristics are required to narrow down the search space.
+
+Important heuristics for the following situation:
+
+find x in p(x, ys)
+
+We look for rules
+
+assume
+    p(a, b(a))
+then (maybe)
+    x = f(b(a))
+end
+
+If f(b(a)) contains free identifiers, additional queries for those identifiers
+are added to the search tree.
+
+Statement proving:
+
+We are given some predicate
+
+p(x, ...)
+
+Then we add the identifier x and the statement p(x, ...) to our assumptions
+
+And we query the statement:
+
+x = y
+
+We discard the result x.
+
+If we find a result of the form
+
+x = y AND p(y, ...)
+
+where y is a free variable in p, then we add the following to our search tree.
+
+find y in p(y, ...)
+
+All previous assumptions, and the new assumption x = y, are included in the new search.
+
+Particularly, this means that if we find a result of the form:
+
+x = y AND p(x, y, ...)
+
+Where y is a free variable in p, then we start a new search for
+
+y in p(x, y, ...)
+
+Which is equivalent to
+
+y in p(y, y, ...)
+
+An interesting special case of this is:
+
+y in y = f(y)
+
+SIMPLIFICATION
+==============
+
+A further issue of search is simplification. There are often infinite representations of the same statement or entity. For instance:
+
+x - x + x - x
+
+p AND p AND p AND p
+
+Simplifications are one-way equivalence transformations. For an entity transformation it must hold that x = y, for a statement transformation it must hold that x iff y.
+
+assume
+    x : Num
+then
+    x - x = 0
+end
+
+assume
+    p
+iff
+    p AND p
+end
+
+Equivalences that reduce entities or statements to syntactically smaller entities or statements in a monotonic fashion are simplifications by default.
+
+Queries always yield only the most simplified version of a result, as the more complex versions can be instantly reconstructed using the reverse simplification rule.

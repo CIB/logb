@@ -1,0 +1,56 @@
+= Literals:
+true
+false
+54.5
+"my \" string"
+
+= Variables:
+abc32
+
+= Tuples:
+("a", "b", 5)
+
+= Lists:
+["a", "b", "b", 5]
+
+= Sets:
+{"a", "b", "b", 5}
+
+= Functions:
+{"a" -> 2, "b" -> 3}
+
+= Prefix relations:
++(2, 5, 7)
+
+= Infix relations:
+"a" in {"a", "b", "c"}
+
+= Function calls:
+
+%f(a, b, c)
+
+= foreach, exists:
+
+foreach x {
+}
+
+foreach x where p(x) {
+}
+
+foreach x in l {
+}
+
+exists x {
+}
+
+= Variable declarations
+var x = e
+var x {
+	p(x, e)
+}
+
+= Operators
+x[e] // tuple index
+x(a, b, c) // statement x holds with parameters (a, b, c)
+x(a, b, c) // equivalent to the statement "(a, b, c) in x", which in turn is equivalent to "((a, b, c), x) in in" etc.
+a x b // syntax sugar for x(a, b) if `x' has been declared as infix relation

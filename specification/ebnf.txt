@@ -1,0 +1,74 @@
+class Node {
+	String name
+	instanceOf {Terminal, NonTerminal}
+	
+	def matches(String text) -> boolean
+}
+
+data NonTerminal {
+	String name
+	[[Node]] rules
+
+	def matches(BNFLang l, String text) -> boolean {
+		exists substrings {
+			instanceOf [String]
+			length == rules.length
+			fold substrings concat == text
+			
+			foreach substring {
+				exists Node n in l.terminals ++ l.nonTerminals {
+					n.matches(l, substring)
+				}
+			}
+		}
+	}
+}
+
+data Terminal {
+	String name
+	String plainText
+
+	def matches(String text) -> boolean {
+		text == plainText
+	}
+}
+
+data BNFLang {
+	{Terminal} terminals
+	{NonTerminal} nonTerminals
+	
+	def matches(String text) -> boolean {
+		exists Node n in terminals ++ nonTerminals {
+			n matches text
+		}
+	}
+}
+
+var parenExpr = NonTerminal(
+	name = "ParenExpr",
+	rules = [[parenLeft, parenExpr, parenRight]]
+)
+
+var parenLeft = Terminal(
+	name = "ParenLeft",
+	plainText = "("
+)
+
+var parenRight = Terminal(
+	name = "ParenRight",
+	plainText = ")"
+)
+
+####################
+Structural Induction
+####################
+
+to prove: forall x in X: p(x)
+
+induction axiom:
+
+assumptions:
+forall x in X: if (forall y in substructures(x): p(y)) then p(x)
+
+conclusion:
+forall x in X: p(x)

@@ -1,0 +1,50 @@
+class List {
+	instanceOf {ListNil, ListElement}
+}
+
+data ListNil {
+}
+
+data ListElement {
+	Entity element
+	List tail
+}
+
+def isElement(Entity e, List l) {
+	case l instanceOf ListNil {
+		false
+	}
+	case l instanceOf ListElement {
+		l.element == e or isElement(e, l.tail)
+	}
+}
+
+def hasElementType(List l, Type t) {
+	forall e: isElement(e, l) => instanceOf(l, t)
+}
+
+def toString(List l) {
+	! hasElementType(l, Char)
+	case l instanceOf ListNil {
+		''
+	}
+	case l instanceOf ListElement {
+		l.element + toString(l.tail)
+	}
+}
+
+======
+PROOFS
+======
+
+forall List l: hasElementType(l, Entity)
+
+=======
+QUERIES
+=======
+
+query x where
+	['A', 'B'] ++ x ++ ['C', 'D'] == ['A', 'B', 'E', 'C', 'D']
+
+desired result:
+	{['E']}

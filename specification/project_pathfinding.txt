@@ -1,0 +1,49 @@
+class Path(G, path) {
+    graph G
+    list[Edge] path
+    
+    forall edge in path:
+        edge in G.edges
+        edge.length > 0
+    forall [a, b] in sublists(path): 
+        a.sink == b.source
+}
+
+path_length(path) = sum (edge => edge.length) path
+where
+    exists graph G: Path(G, path)
+
+query path where
+    Path(mygraph, path)
+optimize
+    path_length(path)
+
+lemma:
+forall path, longer_path where
+    Path(G, path)
+    Path(G, longer_path)
+    exists edge: longer_path = path.append(edge)
+we know that
+    sum (edge => edge.length) path
+    >
+    sum (edge => edge.length) longer_path
+
+lemma(G, path)
+assumptions
+    Path(G, path)
+    path = [a, b],
+    forall [a, c] with
+        Path(G, [a, c])
+    then
+        path_length([a, c]) >= path_length([a, b])
+conclusion:
+    forall Path(G, path2) with
+        path2.start = path.start
+        path2.end = path.end
+    then
+        path_length(path) <= path_length(path2)
+
+
+to perform a path query:
+- construct path query constraints by extending prefix and postfix constraints
+- generate actual paths once the prefix and postfix constraints form a list that's a valid path

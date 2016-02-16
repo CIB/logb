@@ -1,0 +1,59 @@
+class Node {
+	instanceOf [ColumnType, Database, Projection]
+}
+
+class ColumnType {
+	oneOf {"Number", "String"}
+}
+
+class Database {
+	string name
+	{string -> ColumnType} attributes
+}
+
+class Projection {
+	{string} remainingAttributes
+	Node incomingEdge
+}
+
+class CartesianProduct {
+	Node left
+	Node right
+	
+	! foreach attribute in left.attributes {
+		not right.attributes.contains(attribute)
+	}
+}
+
+class Predicate {
+	instanceOf [EqualityPredicate]
+}
+
+class EqualityPredicate {
+	string attribute
+	number|string compareTo
+}
+
+class Selection {
+	[Predicate] predicates
+	Node incomingEdge
+}
+
+function eval x {
+	! x instanceOf [Node]
+	case x instanceOf Database {
+		return <- columns_in_database[x.name]
+	}
+	case x instanceOf Selection {
+		input <- eval(x.incomingEdge)
+		return <- rows.filter { row =>
+			checkPredicates(row, predicates)
+		}
+	}
+	case x instanceOf Projection {
+		input <- eval(x.incomingEdge),
+		return <- rows.map { row =>
+			collectAttributes(row, x.attributes)
+		}
+	}
+}

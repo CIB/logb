@@ -1,0 +1,259 @@
+Concepts:
+
+- class: A collection of statements about an entity X
+- data: A class + definitions about structure and substructure (instances can be created!)
+- entity: any "thing" in the universe
+- statement: predicate (tuple) over entities
+- inference: get from quantified assumptions to quantified conclusion
+- variable: placeholder for entity within statement or entity structure
+- scope: introduces bound variables, contains list of non-contradicting statements and their conclusions
+- function: binary relation that fulfills function-properties
+	- constraints on valid left-hand elements, every left-hand element must be bound with exactly one right-hand element by a tuple in the relation
+	- syntax sugar for computing the result of the function
+
+
+Language Constructs:
+
+p(x, y, z) -> truth value
+var x {
+	p(x, y) // constraint
+}
+var x = %p(y, z) // where p is a function predicate p(a, b) -> out
+var x {
+	%p(y, z) = x // equivalent to the above
+}
+var x = 5 + 2 + 1
+var x {
+	// equivalent to the above
+	exists y {
+		+(5, 2) = y
+		x = +(y, 1)
+	}
+}
+
+=====
+Atoms
+=====
+5
+"Hello, world!"
+true
+Integer
+String
+Boolean
+Type
+
+==========
+Statements
+==========
+
++(5, 2, 7)
+++("a", "b", "ab")
+
+======
+Scopes
+======
+
+forall x {
+	=>(
+		instanceOf(x, Integer),
+		exists y {
+			+(x, 1, y)
+			>(y, x)
+		}
+	  )
+}
+
+============
+Declarations
+============
+
+var x = 10
+var y = 5
+[...]
+
+// Equivalent to:
+exists x {
+	x = 10
+	exists y {
+		y = 5
+		[...]
+	}
+}
+
+=================
+Logical Operators
+=================
+
+var x = true
+var y = false
+
+It follows:
+
+x == true
+not(y) == true
+x or y == true
+x and y == false
+
+========
+Equality
+========
+
+forall x {
+	x = x
+}
+
+====
+Sets
+====
+
+var x = { 1, 2, 3 }
+
+It follows:
+1 in x
+2 in x
+3 in x
+not(4 in x)
+
+======
+Tuples
+======
+
+var x = (5, 10, 15)
+
+It follows:
+
+isTuple(x, 3)
+columnType(x, 1, Int)
+columnType(x, 2, Int)
+columnType(x, 3, Int)
+x[1] = 5
+x[2] = 10
+x[3] = 15
+
+
+=========
+Relations
+=========
+
+var x = {
+	(a, b),
+	(c, d),
+	(e, f)
+}
+
+It follows:
+in((a, b), x)
+x(a, b)
+isRelation(x, 2)
+columnType(x, 1, ...)
+
+===============
+Functions (1-1)
+===============
+
+var x = {
+	(1, 1),
+	(2, 4),
+	(3, 9)
+}
+
+It follows:
+
+%x(1) = 1
+%x(2) = 4
+%x(3) = 9
+
+Or equivalently:
+exists y {
+	(1, y) in x
+}
+
+Or equivalently:
+exists y {
+	x(1, y)
+}
+
+Axiom:
+
+forall f where isFunction(f, D, R) {
+	isSet(D)
+	isSet(R)
+	isSet(f)
+	forall t in f {
+		isTuple(t, 2)
+		not exists t2 in f {
+			t2 != t and t[1] == t2[1]
+		}
+	}
+	forall x in D {
+		exists y in R {
+			(x, y) in f
+		}
+	}
+}
+
+projection(x, {1 -> 1, 2 -> 3}) = (x[1], x[3]) = (5, 15)
+
+// Axiom!
+var t = projection(x, f)
+exists k {
+	x instanceOf(tuples, k)
+	exists n in Int {
+		f in functions({1..n} -> {1..dim(x)}) {	
+			isTuple(t, n)
+			forall i in {1..n} {
+				t[i] = x[f(i)]
+			}
+		}
+	}
+}
+
+! projection(x, (1)) = { (a), (c), (e) }
+
+=========
+Functions
+=========
+
+def f(String x, Int y, Bool z) -> (Bool out1, String out2) {
+	out1 + 5 = y
+	out2 = x + "a"
+}
+
+// Equivalent to the above:
+var f {
+	isPredicate(f, 5)
+	tupleForAllValues(f, {1, 2, 3})
+	
+	forall (x, y, z) in projection(f, [1, 2, 3]) {
+		most1 (out1, out2) in domain(Bool, String) {
+			(x, y, z, out1, out2) in f
+		}
+	}
+	
+	forall (x, y, z) in domain(String, Int, Bool) {
+		(x, y, z) in projection(f, [1, 2, 3])
+	}
+	
+	forall (x, y, z, out1, out2) in f {
+		x instanceOf String
+		y instanceOf Int
+		z instanceOf Bool
+		out1 instanceOf Bool
+		out2 instanceOf String
+		
+		out1 + 5 = y
+		out2 = x + "a"
+	}
+}
+
+Prove uniqueness of function constraints:
+
+forall f1, f2 in constraints:
+	forall params in domain(f1):
+		f1(params) = f2(params)
+
+Prove existence of function:
+
+forall params in domain(constraints):
+	exists out:
+		f(params) = out in constraints

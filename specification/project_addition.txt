@@ -1,0 +1,41 @@
+Problem: We have a relation of the sort
+
+addition(x, y, z)
+
+where the rule holds iff x + y = z
+
+We want to list possible results for
+
+find x in addition(x, 5, 8)
+
+We can add an unverified rule:
+
+assume
+    addition(x, y, z)
+then maybe
+    x = z - y
+end
+
+We can instantiate the rule:
+
+x = 8 - 5
+
+Which immediately yields us a result:
+
+x <- 8 - 5
+
+The query can also be evaluated using a search tree and axioms:
+
+assume
+    a + b = c
+then
+    a = c - b
+end
+
+x + y = z
+
+=>
+
+x = z - y
+
+At which point we have a direct result for x
