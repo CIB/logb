@@ -91,3 +91,7 @@ exports.ImplicationReversal = new logb.InferenceType(
     ],
     s("implies", [s("not", v("y")), s("not", v("x"))])
 );
+
+exports.forall = function(boundVariables) {
+    logb.Block.call(this, boundVariables);
+}
