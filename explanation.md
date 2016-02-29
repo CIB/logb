@@ -2,13 +2,13 @@
 
 Formal logic(and more specifically, high order logic) provides us with the necessary format to represent arbitrary information. logb's information format builds on this:
 
-* Entities: Atomic elements and sets that group them
-* Statements: Relations on entities
-* Nested Statements: Statements are also Entities
+* Entities: Atomic "things" that we model and describe
+* Statements: Predicates on entities
+* Nested Statements: Statements are also Entities, hence Statements can be made about Statements
 
 Furthermore, logb extends this basic format with a few concepts:
 
-* Entity structures: Entities that "contain" entities, comparable to structs in C.
+* Structural entities: Entities that structurally combine other entities, defined through induction.
 * Patterns: A way to specify sets of statements and entities by introducing "variables" into them. Comparable in functionality to "queries" and "rules" in prolog.
 
 # Modules
@@ -19,7 +19,7 @@ All entity types, statement types and axioms must be defined in a module. These 
 
 # Entities
 
-Entities are the basic building block of our format. In logb, everything except the things hardcoded in modules, such as entity types and statement types, is an entity. Entities often represent something "outside" logb's format, such as numbers or pixels. However, statements are entities as well.
+Entities are the basic building block of our format. In logb, everything except the things hardcoded in modules, such as entity types and statement types, is an entity. Entities often represent something outside logb's syntactic representation, such as numbers or pixels. However, statements are entities as well.
 
 Examples of entities:
 
@@ -27,7 +27,7 @@ Examples of entities:
 * `Point(Integer(1), Integer(1))` - Entity structure, containing two Integer entities
 * `Equals(Integer(1), Integer(1))` - Statement
 
-Every entity has a type, e.g. "Integer". "outside" entities have a data pointer, e.g "1". Entity structures have a child table, e.g. `{Integer(1), Integer(1)}`. Statements always have the entity type "statement", but they also have a statement type, e.g. `Equals`. Statements have a parameter table, e.g. `{lefthand = Integer(1), righthand = Integer(1)}`.
+Entities can be assigned semantic values using an interpretation function, for instance `Integer(1)` will be interpreted as `1`. Entity structures are represented using structural data types like lists and maps, e.g. `[Integer(1), Integer(1)]`. Statements always belong to the entity type "statement", but they also belong to a statement type, e.g. `Equals`. Statements have a parameter dictionary, e.g. `{lefthand: Integer(1), righthand: Integer(1)}`.
 
 # Statements
 
@@ -46,7 +46,7 @@ The `ForAll` example makes use of patterns, which we'll discuss in detail later.
 
 # Patterns
 
-Patterns are a way to describe groups of entities(usually statements). Where regular entities can only contain other entities, e.g. `And(A, B)` where `A` and `B` are atomic entities, patterns can contain "placeholders"(variables) in any place where an entity can be placed. For example, a pattern with the placeholder `%A` could be `AND(%A, B)`. Since `%A` is a placeholder, not an entity, we can 'replace' it, for example replacing `%A` with `foo` would lead to `AND(foo, B)`.
+Patterns are a way to describe groups of entities (usually statements). Where regular entities can only contain other entities, e.g. `And(A, B)` where `A` and `B` are atomic entities, patterns can contain "placeholders" (variables) in any place where an entity can be placed. For example, a pattern with the placeholder `%A` could be `AND(%A, B)`. Since `%A` is a placeholder, not an entity, we can 'replace' it, for example replacing `%A` with `foo` would lead to `AND(foo, B)`.
 
 As you can probably see, a pattern can be seen as a function, which takes an "assignment" for each of its "parameters" and yields an entity. For instance, let's call our previous example "patternA":
 
@@ -69,13 +69,7 @@ The last two examples are fundamentally different. `AND(FOO, BAR)` is a simple s
 
     patternB(%B) := AND(FOO, %B)
 
-## Pattern Constraints
-
-Patterns can place constraints on their variables. For instance, in a pattern `GreaterOrEqual(%A, 10)`, you might want to specify that the replacement for `%A` must be in the set of positive integers.
-
-    positivePattern(%X) := GreaterOrEqual(%X, 0) WHERE IsElement(%X, PosIntegers)
-
-The first part of the pattern should be familiar. It's a simple pattern with the variable `%X`. The additional `WHERE` clause specifies that `%X` can only be substituted with something that matches the clause. For instance, `%X = 10` is possible, as `10` is a positive integer. However, `%X = "foo"` is not possible. If we compare this to our previous "function analogy", we now have a *partial function*: Some combinations of variable replacements, those that don't match the constraints, just aren't mapped by our pattern.
+The variables in patterns are usually `bound` by a surrounding block.
 
 ## Querying
 
@@ -98,7 +92,7 @@ The process gets much more complex when the entity to match is itself a pattern.
 
 # Inference
 
-Creating new statements out of existing ones is a central task for logb. This process is called inference. Inference is done by so-called "generators" that take a set of statements as input, and can yield new statements as result. The assumption is that the generator knows that the input statements (formally) imply the output statements.
+Creating new statements out of existing ones is a central task for logb. This process is called inference. Inference is done by so-called "inference providers" whose purpose is to interact with an existing knowledge base to produce new statements. The assumption is that the generator knows that the given knowledge base (formally) implies the output statements.
 
 Here is a simple example of an inference:
 
@@ -115,18 +109,27 @@ Simple inference graph(linear):
 
     AND(OR(A, B), C) --> OR(A, B) --> NOT(AND(NOT(A), NOT(B)))
 
-# Generators
+# Inference Providers
 
-As described in the previous section, generators are responsible for taking a set of input statements and infering new statements. Generators are implemented as actual algorithms, which means they're axiomatic. If a generator algorithm is broken, its results are not reliable.
+As described in the previous section, generators are responsible for taking a set of input statements and infering new statements. Inference providers are implemented as actual algorithms, which means they're axiomatic. If an inference algorithm is broken, its results are not reliable.
 
-Since feeding all combinations of statements to a generator would be very inefficient, generators provide means to tell the caller what statements it needs. For this, the caller supplies a statement it would like to prove(or disprove), and the generator will yield patterns for statements that would be helpful for doing so.
+Since feeding all combinations of statements to an inference provider would be very inefficient, the inference provider itself accesses data in the knowledge base using queries.
 
-For instance, consider we want to prove `A`. The AndEliminationGenerator would be given this statement, and return patterns for statements it could use to prove `A`:
+Calling an inference provider takes the following form:
 
-    AND(A, %X) WHERE %X IS STATEMENT
-    AND(%X, A) WHERE %X IS STATEMENT
+```javascript
+result_iter <- inference_provider(knowledge_base) 
+```
 
-We can then recursively keep looking for these patterns, until we find a statement that we already know to be true.
+`result_iter` will yield not only statements, but also dependencies of existing statements in the knowledge base to the newly generated statements. Furthermore, specific substructures of previous statements can be mapped to specific substructures of resulting statements, which is highly useful for user information in determining exactly where part of a generated statement originated in the original knowledge base.
+
+While searching for results, the inference provider will query the knowledge base using calls of the following form.
+
+```javascript
+knowledge_base.query_statement(pattern)
+```
+
+When the inference provider finds a relevant statement, it will be able to use this statement to "pin down" part of the variability in what it's looking for. The process of "pinning down" variability and searching the subspace can be represented as a (vast) search tree. This search tree can be approached using algorithms like DPLL.
 
 # Logical operators
 
