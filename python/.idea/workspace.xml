@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dae85dd9-ab2a-4083-8ffd-d819e094a203" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../javascript/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../javascript/.idea/watcherTasks.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../javascript/pattern.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../javascript/test/pattern.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/block.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/entity.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/knowledgebase.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/literal.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/statement.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/variable.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../scala/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/../scala/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../javascript/logb.js" afterPath="$PROJECT_DIR$/../javascript/logb.js" />
@@ -16,6 +16,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../javascript/utils.js" afterPath="$PROJECT_DIR$/../javascript/utils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../logb-java/.classpath" afterPath="$PROJECT_DIR$/../logb-java/.classpath" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../logb-java/src/org/logb/core/modules/MLogic.java" afterPath="$PROJECT_DIR$/../logb-java/src/org/logb/core/modules/MLogic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logb.py" afterPath="$PROJECT_DIR$/logb.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/test_core.py" afterPath="$PROJECT_DIR$/test/test_core.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../scala/.idea/scala_compiler.xml" afterPath="$PROJECT_DIR$/../scala/.idea/scala_compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../scala/src/main/scala/Block.scala" afterPath="$PROJECT_DIR$/../scala/src/main/scala/Block.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../scala/src/main/scala/Entity.scala" afterPath="$PROJECT_DIR$/../scala/src/main/scala/Entity.scala" />
@@ -34,8 +37,10 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/python$Unit_Tests.coverage" NAME="Unit Tests Coverage Results" MODIFIED="1464887779541" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/python$Unit_Tests.coverage" NAME="Unit Tests Coverage Results" MODIFIED="1467744417960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/python$python.coverage" NAME="python Coverage Results" MODIFIED="1463692001473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/python$logb.coverage" NAME="logb Coverage Results" MODIFIED="1467744303294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/python$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1467743731071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/core" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -49,32 +54,97 @@
       <file leaf-file-name="logb.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="770">
-              <caret line="209" column="13" selection-start-line="209" selection-start-column="13" selection-end-line="209" selection-end-column="13" />
+            <state relative-caret-position="44">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="literal.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/literal.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
               <folding>
-                <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-                <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-                <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
+                <element signature="e#0#38#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_core.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="block.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/block.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="knowledgebase.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/knowledgebase.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="entity.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/entity.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="21" column="82" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="statement.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/statement.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#48#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="variable.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/variable.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test_core.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/test_core.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="22">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,8 +168,17 @@
         <option value="$PROJECT_DIR$/python.py" />
         <option value="$PROJECT_DIR$/test/test_statement.py" />
         <option value="$PROJECT_DIR$/Untitled.ipynb" />
-        <option value="$PROJECT_DIR$/logb.py" />
+        <option value="$PROJECT_DIR$/core/KnowledgeBase.py" />
+        <option value="$PROJECT_DIR$/core/Entity.py" />
+        <option value="$PROJECT_DIR$/core/Statement.py" />
+        <option value="$PROJECT_DIR$/core/Literal.py" />
+        <option value="$PROJECT_DIR$/core/Block.py" />
         <option value="$PROJECT_DIR$/test/test_core.py" />
+        <option value="$PROJECT_DIR$/core/Variable.py" />
+        <option value="$PROJECT_DIR$/logb.py" />
+        <option value="$PROJECT_DIR$/core/knowledgebase.py" />
+        <option value="$PROJECT_DIR$/core/__init__.py" />
+        <option value="$PROJECT_DIR$/core/entity.py" />
       </list>
     </option>
   </component>
@@ -110,8 +189,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1600" />
-    <option name="height" value="869" />
+    <option name="x" value="1595" />
+    <option name="width" value="1930" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -191,6 +271,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -203,6 +297,42 @@
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
   </component>
   <component name="RunManager" selected="Python tests.Unit Tests">
+    <configuration default="false" name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/core" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/core/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="logb" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="python" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/logb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -452,10 +582,18 @@
       <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.python" />
       <item index="1" class="java.lang.String" itemvalue="Python tests.Unit Tests" />
+      <item index="2" class="java.lang.String" itemvalue="Python.__init__" />
+      <item index="3" class="java.lang.String" itemvalue="Python.logb" />
     </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.logb" />
+        <item index="1" class="java.lang.String" itemvalue="Python.__init__" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -474,48 +612,48 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unit_Tests - 2016.06.02 at 18h 11m 05s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 17h 18m 36s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 18h 11m 17s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 17h 23m 49s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 18h 12m 32s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 17h 25m 23s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 18h 46m 44s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 31m 52s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 18h 46m 52s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 33m 39s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 18h 47m 15s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 45m 21s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 19h 03m 58s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 45m 43s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 19h 05m 32s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 46m 25s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 19h 16m 08s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 46m 37s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unit_Tests - 2016.06.02 at 19h 16m 19s.xml">
+    <history-entry file="Unit_Tests - 2016.07.05 at 20h 46m 58s.xml">
       <configuration name="Unit Tests" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1600" height="869" extended-state="1" />
+    <frame x="1595" y="0" width="1930" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21572328" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1796875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3108108" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2416318" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -542,7 +680,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/test/test_core.py</url>
+          <line>71</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -551,18 +696,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1232">
+          <caret line="57" column="72" selection-start-line="57" selection-start-column="72" selection-end-line="57" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1848">
+          <caret line="84" column="4" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/test_core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -570,9 +744,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="946">
           <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -580,18 +752,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -599,18 +760,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -618,9 +768,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -628,18 +776,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -647,9 +784,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -657,18 +792,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -676,9 +800,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="24" column="58" selection-start-line="24" selection-start-column="58" selection-end-line="24" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -686,18 +808,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -705,9 +816,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="704">
           <caret line="33" column="61" selection-start-line="33" selection-start-column="61" selection-end-line="33" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -715,18 +824,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1584">
           <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -734,9 +832,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -744,18 +840,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -763,9 +848,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -773,18 +856,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
           <caret line="45" column="40" selection-start-line="45" selection-start-column="40" selection-end-line="45" selection-end-column="40" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -792,9 +864,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -809,18 +879,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="770">
           <caret line="35" column="40" selection-start-line="35" selection-start-column="40" selection-end-line="35" selection-end-column="40" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -828,9 +887,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -852,18 +909,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -892,18 +938,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -929,31 +964,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/literal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/logb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="770">
-          <caret line="209" column="13" selection-start-line="209" selection-start-column="13" selection-end-line="209" selection-end-column="13" />
-          <folding>
-            <marker date="1464887087511" expanded="true" signature="1542:1804" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="1551:1790" ph="&quot;&quot;&quot;Unification is the generalized version of pattern matching....&quot;&quot;&quot;" />
-            <marker date="1464887087511" expanded="true" signature="1896:1909" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="3002:3105" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4301:4632" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4374:4507" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="4705:5350" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5375:5960" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5513:5535" ph="..." />
-            <marker date="1464887087511" expanded="true" signature="5921:5960" ph="..." />
-          </folding>
+        <state relative-caret-position="44">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/test_core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+        <state relative-caret-position="22">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/variable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/entity.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="21" column="82" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/block.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/knowledgebase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/statement.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
           </folding>
         </state>
       </provider>

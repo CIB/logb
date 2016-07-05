@@ -1,5 +1,5 @@
 from unittest import TestCase
-from logb import Statement, Literal, Variable, KnowledgeBase
+from core import Statement, Literal, Variable, KnowledgeBase
 
 
 class TestCore(TestCase):

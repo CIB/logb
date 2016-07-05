@@ -5,6 +5,22 @@ class Node {
 	def matches(String text) -> boolean
 }
 
+### Equivalent
+Node instanceOf Set
+forall node in Node {
+	exists name, matches {
+		member(node, "name") = name
+		name instanceOf String
+
+		matches = member(node, "matches")
+		matches instanceOf Function
+		matches domain [String]
+		matches range boolean
+	}
+}
+
+### -----------
+
 data NonTerminal {
 	String name
 	[[Node]] rules
