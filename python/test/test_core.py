@@ -34,17 +34,9 @@ class TestCore(TestCase):
         self.kb.addStatement(block, statement)
         self.assertFalse(statement.equals(self.kb, statement3))
 
-    def testMatch(self):
-        block = self.kb.root
-        variable = self.kb.addEntity(Variable("x"))
-        statement = Statement("foo", {"a": variable, "b": variable})
-
-        literal = self.kb.addEntity(Literal(10))
-        statement2 = self.kb.addStatement(block, Statement("foo", {"a": literal, "b": literal}))
-
-        self.assertTrue(statement.match(self.kb, statement2) == {"x": literal})
-
     def testSubstitute(self):
+        # foo(a: x, b: x)[x -> 10] == foo(a: 10, b: 10)
+
         block = self.kb.root
         variable = self.kb.addEntity(Variable("x"))
         statement = Statement("foo", {"a": variable, "b": variable})
@@ -58,6 +50,8 @@ class TestCore(TestCase):
         self.assertTrue(self.kb[statement2].equals(self.kb, self.kb[statement3]))
 
     def testUnify(self):
+        # foo(l: bar(a: x), r: y) ~~ foo(l: z, r:z) == { y -> z, z -> bar(a: x) }
+
         block = self.kb.root
         x = self.kb.addEntity(Variable("x"))
         y = self.kb.addEntity(Variable("y"))
@@ -69,4 +63,4 @@ class TestCore(TestCase):
         statement3 = Statement("foo", {"l": z, "r": z})
         statement3ID = self.kb.addStatement(block, statement3)
 
-        self.assertTrue(statement2.unify(self.kb, statement3ID) == {"y": z, "z": statementID})
+        self.assertTrue(statement2.unify(self.kb, statement3ID) == {"y": statementID, "z": statementID})

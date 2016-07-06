@@ -14,11 +14,8 @@ class Literal(Entity):
             return False
         return self.value == other.value
 
-    def match(self, kb: KnowledgeBase, other: str) -> Dict[str, str]:
-        if self.equals(kb, kb[other]):
+    def unify(self, kb: KnowledgeBase, otherID: str) -> Dict[str, str]:
+        if self.equals(kb, kb[otherID]):
             return {}
         else:
             return None
-
-    def unify(self, kb: KnowledgeBase, otherID: str) -> Dict[str, str]:
-        return self.match(kb, otherID)

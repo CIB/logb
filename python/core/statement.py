@@ -22,23 +22,6 @@ class Statement(Entity):
             dict_equals(self.parameters, other.parameters, entry_equals)
         )
 
-    def match(self, kb: KnowledgeBase, otherID: str) -> bool:
-        env = {}
-        other = kb[otherID]
-
-        if not isinstance(other, Statement):
-            return None
-
-        if self.parameters.keys() != other.parameters.keys():
-            return None
-
-        for key, valueID in self.parameters.items():
-            value = kb[valueID]
-            newEnv = value.match(kb, other.parameters[key])
-            env = merge_environments(kb, env, newEnv)
-
-        return env
-
     def substitute(self, selfID: str, kb: KnowledgeBase, env: Dict[str, str]):
         params = {}
         for key, valueID in self.parameters.items():
@@ -73,6 +56,13 @@ class Statement(Entity):
 
         return env
 
+def expandEnvironment(kb: KnowledgeBase, env : Dict[str, str]):
+    env = {**env}
+    for key, valueID in env.items():
+        value = kb[valueID]
+        newValueID = value.substitute(valueID, kb, env)
+        env[key] = newValueID
+    return env
 
 def merge_environments(kb: KnowledgeBase, l: Dict, r: Dict) -> Dict:
     # If l is None or r is None, yield None
@@ -87,7 +77,7 @@ def merge_environments(kb: KnowledgeBase, l: Dict, r: Dict) -> Dict:
             return None
 
     # Merge the two dicts
-    return {**l, **r}
+    return expandEnvironment(kb, {**l, **r})
 
 
 def dict_equals(d1, d2, comparator):

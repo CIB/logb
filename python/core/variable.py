@@ -11,9 +11,6 @@ class Variable(Entity):
             return False
         return self.name == other.name
 
-    def match(self, kb, otherID):
-        return {self.name: otherID}
-
     def unify(self, kb, otherID):
         return {self.name: otherID}
 
