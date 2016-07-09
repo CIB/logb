@@ -17,6 +17,8 @@ public class MLogic extends Module {
 	static public StatementType NOT;
 	static public Rule notElimination;
 	static public Rule andElimination;
+	static public Rule orElimination;
+	static public Rule orElimination2;
 
 	public MLogic() {
 		super("core.Logic");
@@ -34,6 +36,7 @@ public class MLogic extends Module {
 		
 		// notElimination
 		EntityStructureBase dependency = parser.parse("X");
+		EntityStructureBase dependency2;
 		EntityStructureBase conclusion = parser.parse("Not(what=Not(what=X))");
 		
 		notElimination = new Rule();
@@ -49,5 +52,25 @@ public class MLogic extends Module {
 		andElimination.addDependency(dependency);
 		andElimination.setConclusion(conclusion);
 		this.addRule(andElimination);
+		
+		// orElimination
+		dependency = parser.parse("X");
+		conclusion = parser.parse("Or(lefthand=X, righthand=Y)");
+		
+		orElimination = new Rule();
+		orElimination.addDependency(dependency);
+		orElimination.setConclusion(conclusion);
+		this.addRule(orElimination);
+		
+		// orElimination2
+		dependency = parser.parse("Or(lefthand=X, righthand=Y)");
+		dependency2 = parser.parse("Not(what=X)");
+		conclusion = parser.parse("Y");
+		
+		orElimination2 = new Rule();
+		orElimination2.addDependency(dependency);
+		orElimination2.addDependency(dependency2);
+		orElimination2.setConclusion(conclusion);
+		this.addRule(orElimination2);
 	}
 }

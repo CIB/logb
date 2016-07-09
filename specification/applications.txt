@@ -11,3 +11,4 @@
 - Scanning files for structure
 - Regular expressions / EBNF
 - Sorting lists
+- Find steps to reach a goal (e.g. connect HDD X to computer, copy files)

@@ -3,6 +3,8 @@ from typing import Dict
 
 
 class Variable(Entity):
+    # TODO: variables shouldn't be entities
+
     def __init__(self, name):
         self.name = name
 

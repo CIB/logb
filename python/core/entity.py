@@ -7,15 +7,14 @@ class Entity(object):
         pass
 
     def unify(self, kb, otherID: str) -> Dict[str, str]:
-        """ Find a
+        """ Find a mapping for the variables in two statements such that
+            both statements are equal after replacing the variables with
+            their substitutions.
 
         Both statements should live within the same scope, so that
         variables by the same name refer to the same entity across
         compared statements.
         """
-
-        # TODO: the resulting mapping should be fully expanded,
-        #       e.g. { x -> y, y -> z } should become { x -> z, y -> z }
 
         pass
 

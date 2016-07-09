@@ -1,6 +1,5 @@
 from core import Block
 
-
 class KnowledgeBase(object):
     def __init__(self):
         self.dict = {}
@@ -46,3 +45,15 @@ class KnowledgeBase(object):
         block.statements.append(newID)
         return newID
 
+    def query(self, pattern):
+        """ Query the knowledge base for the given pattern.
+        :param pattern: A statement with variable placeholders.
+        :return: The ID of the node that matches this pattern, as well
+                 as the environment with which it matches.
+        """
+        block = self[self.root]
+        for statement in block.statements:
+            # TODO: make sure only variables from the pattern are substituted
+            env = pattern.unify(self, statement)
+            if env:
+                yield (statement, env)
