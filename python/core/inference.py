@@ -1,4 +1,5 @@
 from core import KnowledgeBase
+from .statement import merge_environments
 
 
 class InferenceProvider(object):
@@ -22,16 +23,17 @@ class InferenceRule(object):
         # TODO: ensure that only declared variables are used
 
     def getInferences(self, kb: KnowledgeBase):
-        # TODO: substitute environment-so-far into nodes further down
-        def find_matches_recursion(dependencies):
-            dependency = dependencies[0]
-            for match in kb.query(dependency):
+        def find_matches_recursion(dependencies, env = {}):
+            dependencyID = dependencies[0]
+            dependency = kb[dependencyID]
+            for match, newEnv in kb.query(kb[dependency.substitute(dependencyID, kb, env)]):
+                newEnv = merge_environments(kb, env, newEnv)
                 rest = dependencies[1:]
                 if len(rest):
-                    for subresult in find_matches_recursion(rest):
-                        yield [match] + subresult
+                    for subenv, subresult in find_matches_recursion(rest, newEnv):
+                        yield subenv, [match] + subresult
                 else:
-                    yield [match]
+                    yield newEnv, [match]
 
-        for result in find_matches_recursion(self.dependencies):
-            yield result
+        for env, result in find_matches_recursion(self.dependencies):
+            yield env, result

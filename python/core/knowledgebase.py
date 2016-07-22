@@ -55,5 +55,5 @@ class KnowledgeBase(object):
         for statement in block.statements:
             # TODO: make sure only variables from the pattern are substituted
             env = pattern.unify(self, statement)
-            if env:
+            if isinstance(env, dict):
                 yield (statement, env)

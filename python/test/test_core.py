@@ -1,5 +1,5 @@
 from unittest import TestCase
-from core import Statement, Literal, Variable, KnowledgeBase
+from core import Statement, Literal, Variable, KnowledgeBase, InferenceRule
 
 
 class TestCore(TestCase):
@@ -87,11 +87,24 @@ class TestCore(TestCase):
     def testPatternInference(self):
         block = self.kb.root
 
-
         x = self.kb.addEntity(Variable("x"))
         literal = self.kb.addEntity(Literal(10))
         literal2 = self.kb.addEntity(Literal(15))
         statement = Statement("foo", {"a": literal})
         statement2 = Statement("bar", {"b": literal2})
+        statement3 = Statement("bar", {"b": literal})
         statementID = self.kb.addStatement(block, statement)
         statement2ID = self.kb.addStatement(block, statement2)
+        statement3ID = self.kb.addStatement(block, statement3)
+
+        pattern = Statement("foo", {"a": x})
+        pattern2 = Statement("bar", {"b": x})
+        conclusion = Statement("conclusion", {})
+        patternID = self.kb.addEntity(pattern)
+        pattern2ID = self.kb.addEntity(pattern2)
+        conclusionID = self.kb.addEntity(conclusion)
+
+        irule = InferenceRule(["x"], conclusionID, [patternID, pattern2ID])
+        results = [result for result in irule.getInferences(self.kb)]
+        print("results: " + str(results))
+        self.assertTrue(results == [conclusionID])

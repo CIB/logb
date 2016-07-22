@@ -56,6 +56,7 @@ class Statement(Entity):
 
         return env
 
+
 def expandEnvironment(kb: KnowledgeBase, env : Dict[str, str]):
     env = {**env}
     for key, valueID in env.items():
@@ -63,6 +64,7 @@ def expandEnvironment(kb: KnowledgeBase, env : Dict[str, str]):
         newValueID = value.substitute(valueID, kb, env)
         env[key] = newValueID
     return env
+
 
 def merge_environments(kb: KnowledgeBase, l: Dict, r: Dict) -> Dict:
     # If l is None or r is None, yield None
