@@ -84,3 +84,14 @@ class TestCore(TestCase):
         self.assertTrue(result[1][0] == statement2ID)
         self.assertTrue(result[1][1]['x'] == literal2)
 
+    def testPatternInference(self):
+        block = self.kb.root
+
+
+        x = self.kb.addEntity(Variable("x"))
+        literal = self.kb.addEntity(Literal(10))
+        literal2 = self.kb.addEntity(Literal(15))
+        statement = Statement("foo", {"a": literal})
+        statement2 = Statement("bar", {"b": literal2})
+        statementID = self.kb.addStatement(block, statement)
+        statement2ID = self.kb.addStatement(block, statement2)
