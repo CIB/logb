@@ -85,6 +85,15 @@ class TestCore(TestCase):
         self.assertTrue(result[1][1]['x'] == literal2)
 
     def testPatternInference(self):
+        # Inference rule: foo(a: x), bar(b: x) -> conclusion()
+        # Knowledge Base:
+        #  foo(a: 10) #1
+        #  bar(b: 15) #2
+        #  bar(b: 10) #3
+        # Expected result:
+        #  env: {x -> 10}
+        #  dependencies: [#1, #3]
+        #  conclusion: conclusion()
         block = self.kb.root
 
         x = self.kb.addEntity(Variable("x"))
@@ -106,5 +115,4 @@ class TestCore(TestCase):
 
         irule = InferenceRule(["x"], conclusionID, [patternID, pattern2ID])
         results = [result for result in irule.getInferences(self.kb)]
-        print("results: " + str(results))
-        self.assertTrue(results == [conclusionID])
+        self.assertTrue(results == [({'x': literal}, [statementID, statement3ID], conclusionID)])

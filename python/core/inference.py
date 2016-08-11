@@ -36,4 +36,4 @@ class InferenceRule(object):
                     yield newEnv, [match]
 
         for env, result in find_matches_recursion(self.dependencies):
-            yield env, result
+            yield env, result, kb[self.conclusion].substitute(self.conclusion, kb, env)
