@@ -5,3 +5,4 @@ from .variable import Variable
 from .statement import Statement
 from .literal import Literal
 from .inference import InferenceRule
+from .quantor import Quantor

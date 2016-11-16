@@ -1,18 +1,27 @@
 from core import KnowledgeBase, Entity, Variable
-from typing import Dict
+from typing import Dict, Union
 
 
 class Statement(Entity):
-    def __init__(self, statement_type: str, params: Dict[str, str]):
-        self.statementType = statement_type
+    def __init__(self, statementType: str, params: Dict[str, Union[str, Variable]]):
+        self.statementType = statementType
         self.parameters = params
+
+    def toString(self, kb: KnowledgeBase):
+        params = " ".join([kb[param].toString(kb) for param in self.parameters])
+        return "{}({})".format(self.statementType, params)
 
     def equals(self, kb: KnowledgeBase, other: Entity):
         def entry_equals(e1, e2):
-            # First extract the entries from the KB
-            s1 = kb[e1]
-            s2 = kb[e2]
-            return s1.equals(kb, s2)
+            if isinstance(e1, Variable):
+                return e1.equals(e2)
+            elif isinstance(e2, Variable):
+                return False
+            else:
+                # First extract the entries from the KB
+                s1 = kb[e1]
+                s2 = kb[e2]
+                return s1.equals(kb, s2)
 
         if not isinstance(other, Statement):
             return False
@@ -25,9 +34,11 @@ class Statement(Entity):
     def substitute(self, selfID: str, kb: KnowledgeBase, env: Dict[str, str]):
         params = {}
         for key, valueID in self.parameters.items():
-            value = kb[valueID]
-            substitution = value.substitute(valueID, kb, env)
-            params[key] = substitution
+            if isinstance(valueID, Variable):
+                params[key] = valueID.substitute(env)
+            else:
+                value = kb[valueID]
+                params[key] = value.substitute(valueID, kb, env)
         newStatement = Statement(self.statementType, params)
         newID = kb.addEntity(newStatement)
         return newID
@@ -43,13 +54,13 @@ class Statement(Entity):
             return None
 
         for key, valueID in self.parameters.items():
-            lValue = kb[valueID]
             rValueID = other.parameters[key]
-            rValue = kb[rValueID]
-
-            if not isinstance(lValue, Variable) and isinstance(rValue, Variable):
-                newEnv = rValue.unify(kb, valueID)
+            if isinstance(valueID, Variable):
+                newEnv = {valueID.name: rValueID}
+            elif isinstance(rValueID, Variable):
+                newEnv = {rValueID.name: valueID}
             else:
+                lValue = kb[valueID]
                 newEnv = lValue.unify(kb, rValueID)
 
             env = merge_environments(kb, env, newEnv)
@@ -60,9 +71,12 @@ class Statement(Entity):
 def expandEnvironment(kb: KnowledgeBase, env : Dict[str, str]):
     env = {**env}
     for key, valueID in env.items():
-        value = kb[valueID]
-        newValueID = value.substitute(valueID, kb, env)
-        env[key] = newValueID
+        if isinstance(valueID, Variable):
+            env[key] = valueID.substitute(env)
+        else:
+            value = kb[valueID]
+            newValueID = value.substitute(valueID, kb, env)
+            env[key] = newValueID
     return env
 
 

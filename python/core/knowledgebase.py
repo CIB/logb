@@ -14,6 +14,7 @@ class KnowledgeBase(object):
         return self.last_id
 
     def __getitem__(self, item: str):
+        print(self.dict)
         return self.dict[item]
 
     def __setitem__(self, key: str, value):

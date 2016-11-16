@@ -1,5 +1,5 @@
 from unittest import TestCase
-from core import Statement, Literal, Variable, KnowledgeBase, InferenceRule
+from core import Statement, Literal, Variable, KnowledgeBase, InferenceRule, Quantor, Block
 
 
 class TestCore(TestCase):
@@ -38,7 +38,7 @@ class TestCore(TestCase):
         # foo(a: x, b: x)[x -> 10] == foo(a: 10, b: 10)
 
         block = self.kb.root
-        variable = self.kb.addEntity(Variable("x"))
+        variable = Variable("x")
         statement = Statement("foo", {"a": variable, "b": variable})
         statementID = self.kb.addStatement(block, statement)
 
@@ -53,9 +53,9 @@ class TestCore(TestCase):
         # foo(l: bar(a: x), r: y) ~~ foo(l: z, r:z) == { y -> bar(a: x), z -> bar(a: x) }
 
         block = self.kb.root
-        x = self.kb.addEntity(Variable("x"))
-        y = self.kb.addEntity(Variable("y"))
-        z = self.kb.addEntity(Variable("z"))
+        x = Variable("x")
+        y = Variable("y")
+        z = Variable("z")
         statement = Statement("bar", {"a": x})
         statementID = self.kb.addEntity(statement)
         statement2 = Statement("foo", {"l": statementID, "r": y})
@@ -68,7 +68,7 @@ class TestCore(TestCase):
     def testQuery(self):
         block = self.kb.root
 
-        x = self.kb.addEntity(Variable("x"))
+        x = Variable("x")
         literal = self.kb.addEntity(Literal(10))
         literal2 = self.kb.addEntity(Literal(15))
         statement = Statement("foo", {"a": literal})
@@ -96,7 +96,7 @@ class TestCore(TestCase):
         #  conclusion: conclusion()
         block = self.kb.root
 
-        x = self.kb.addEntity(Variable("x"))
+        x = Variable("x")
         literal = self.kb.addEntity(Literal(10))
         literal2 = self.kb.addEntity(Literal(15))
         statement = Statement("foo", {"a": literal})
@@ -116,3 +116,13 @@ class TestCore(TestCase):
         irule = InferenceRule(["x"], conclusionID, [patternID, pattern2ID])
         results = [result for result in irule.getInferences(self.kb)]
         self.assertTrue(results == [({'x': literal}, [statementID, statement3ID], conclusionID)])
+
+    def testQuantor(self):
+        block = self.kb.root
+
+        quantorBlock = Block()
+        statement = Statement("foo", {Variable("x")})
+        quantorBlock.statements.append(statement)
+        quantor = Quantor("forall", {}, ["x"], quantorBlock)
+
+        quantor.substitute()
