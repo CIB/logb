@@ -125,5 +125,8 @@ class TestCore(TestCase):
         self.kb.addStatement(quantorBlockID, statement)
         quantor = Quantor("forall", {}, ["x"], quantorBlockID)
         statementID = self.kb.addStatement(block, quantor)
+        ten = self.kb.addEntity(Literal(10))
+        substitutedID = quantor.substitute(statementID, self.kb, {"x": ten, "y": ten})
 
-        print(quantor.substitute(statementID, self.kb, {"x": 10, "y": 10}))
+        self.assertTrue(self.kb[self.kb[self.kb[substitutedID].block].statements[0]].parameters["1"].equals(Variable("x")))
+        self.assertTrue(self.kb[self.kb[self.kb[self.kb[substitutedID].block].statements[0]].parameters["2"]].equals(self.kb, Literal(10)))

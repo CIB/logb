@@ -1,5 +1,5 @@
 from core import KnowledgeBase
-from .statement import merge_environments
+from .statement import mergeEnvironments
 
 
 class InferenceProvider(object):
@@ -27,7 +27,7 @@ class InferenceRule(object):
             dependencyID = dependencies[0]
             dependency = kb[dependencyID]
             for match, newEnv in kb.query(kb[dependency.substitute(dependencyID, kb, env)]):
-                newEnv = merge_environments(kb, env, newEnv)
+                newEnv = mergeEnvironments(kb, env, newEnv)
                 rest = dependencies[1:]
                 if len(rest):
                     for subenv, subresult in find_matches_recursion(rest, newEnv):

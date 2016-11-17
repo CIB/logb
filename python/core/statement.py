@@ -8,7 +8,13 @@ class Statement(Entity):
         self.parameters = params
 
     def toString(self, kb: KnowledgeBase):
-        params = " ".join([kb[param].toString(kb) for param in self.parameters])
+        printValues = []
+        for param in self.parameters.values():
+            if isinstance(param, Variable):
+                printValues.append(param.name)
+            else:
+                printValues.append(kb[param].toString(kb))
+        params = ", ".join(printValues)
         return "{}({})".format(self.statementType, params)
 
     def equals(self, kb: KnowledgeBase, other: Entity):
@@ -63,7 +69,7 @@ class Statement(Entity):
                 lValue = kb[valueID]
                 newEnv = lValue.unify(kb, rValueID)
 
-            env = merge_environments(kb, env, newEnv)
+            env = mergeEnvironments(kb, env, newEnv)
 
         return env
 
@@ -80,7 +86,7 @@ def expandEnvironment(kb: KnowledgeBase, env : Dict[str, str]):
     return env
 
 
-def merge_environments(kb: KnowledgeBase, l: Dict, r: Dict) -> Dict:
+def mergeEnvironments(kb: KnowledgeBase, l: Dict, r: Dict) -> Dict:
     # If l is None or r is None, yield None
     if not (l is not None and r is not None):
         return None

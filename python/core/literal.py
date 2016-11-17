@@ -6,6 +6,9 @@ class Literal(Entity):
     def __init__(self, value):
         self.value = value
 
+    def toString(self, kb):
+        return str(self.value)
+
     def substitute(self, selfID: str, kb: KnowledgeBase, env: Dict[str, str]):
         return selfID
 
