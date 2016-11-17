@@ -120,9 +120,10 @@ class TestCore(TestCase):
     def testQuantor(self):
         block = self.kb.root
 
-        quantorBlock = Block()
-        statement = Statement("foo", {Variable("x")})
-        quantorBlock.statements.append(statement)
-        quantor = Quantor("forall", {}, ["x"], quantorBlock)
+        quantorBlockID = self.kb.addBlock()
+        statement = Statement("foo", {"1": Variable("x"), "2": Variable("y")})
+        self.kb.addStatement(quantorBlockID, statement)
+        quantor = Quantor("forall", {}, ["x"], quantorBlockID)
+        statementID = self.kb.addStatement(block, quantor)
 
-        quantor.substitute()
+        print(quantor.substitute(statementID, self.kb, {"x": 10, "y": 10}))

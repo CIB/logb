@@ -18,23 +18,24 @@ class Quantor(Statement):
         def computeReplacement(existingVariables, key):
             while key in existingVariables:
                 key = key + "_"
-            existingVariables.push(key)
+            existingVariables.append(key)
             return key
 
-        existingVariables = self.variables + env.keys()
+        existingVariables = self.variables + list(env.keys())
         replacementPairs = [(key, computeReplacement(existingVariables, key)) for key in conflictingVariables]
 
-        replacementEnv = Dict(replacementPairs)
+        replacementEnv = dict(replacementPairs)
 
         def replace(key, dict):
-            if key in dict: return key[dict]
+            if key in dict: return dict[key]
             else: return key
 
         variables = [replace(variable, replacementEnv) for variable in self.variables]
         statements = []
-        for statementID in self.block.statements:
+        block = kb[self.block]
+        for statementID in block.statements:
             statement = kb[statementID]
-            statements.push(statement.substitute(statementID, kb, replacementEnv))
+            statements.append(statement.substitute(statementID, kb, replacementEnv))
 
         block = Block()
         block.statements = statements
