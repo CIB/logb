@@ -1,0 +1,45 @@
+isFunction(r) :- {
+	foreach t1, t2 in r {
+		foreach params, result1, result2 {
+			(elem(t1, 0, params) && elem(t1, 1, result1) && elem(t2, 0, params) && elem(t2, 1, result2)) => {
+				equals(result1, result2)
+			}
+		}
+	}
+}
+
+Proof: If a relation is defined as a combination of functions, the relation is also a function
+
+## Note: As we write down the stuff below, it would be real nice to see on the right side a few examples or a generic
+## representation of the statements we're describing.
+
+foreach reldef, params, body, outerParam, outerResult {
+	hasLength(params, 2) &&
+		elem(params, 0, outerParam) &&
+		elem(params, 1, outerResult) &&
+		isRelationDefinition(reldef, body) &&
+		exists(statement) {
+			elem(body, _, statement)
+			foreach relation {
+				statementHasRelation(statement, relation)
+				isFunction(relation)
+			}
+			foreach innerParams {
+				statementHasParams(innerParams)
+				elem(params, 0, innerParam)
+				elem(params, 1, innerResult)
+				equals(innerParam, outerParam)
+				equals(innerResult, outerResult)
+			}
+		}
+	=> {
+		foreach symbol {
+			hasRelationSymbol(reldef, symbol) => {
+				isTrue Relation {
+					symbol: isFunction,
+					params: [symbol]
+				}
+			}
+		}
+	}
+} 

@@ -1,0 +1,37 @@
+1 :: &(A, forall x {B(x)}) |- forall x {&(A, B(x))}
+
+
+forall x {
+	=>(p(x), q(x)).
+	r(x).
+}.
+p(1).
+
+Case:
+
+&(
+	forall x {
+		&(=>(p(x), q(x)), r(x)).
+	},
+	p(1)
+)
+
+:: 1
+
+forall x {
+	&(
+		&(=>(p(x), q(x)), r(x)),
+		p(1)
+	)
+}
+
+forall x {
+	&(=>(p(x), q(x)), r(x)).
+	p(1).
+}
+
+forall x {
+	=>(p(x), q(x)).
+	r(x).
+	p(1).
+}

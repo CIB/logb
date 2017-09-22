@@ -1,0 +1,123 @@
+class RGB {
+	instanceOf (Int, Int, Int)
+}
+
+class RGBA {
+	instanceOf (Int, Int, Int, Int)
+}
+
+data Sprite {
+	width :: Int
+	height :: Int
+	pixels :: Map [(Int, Int) -> RGBA]
+	forEach (x, y) in pixels.keys {
+		0 <= x < width
+		0 <= y < height
+	}
+}
+
+class Canvas {
+	width :: Int
+	height :: Int
+	forEach (x, y) in pixels.keys {
+		0 <= x < width
+		0 <= y < height
+	}
+	
+	sprites :: List [((Int, Int), Sprite)]
+	
+	forEach (pixel_coord, pixel) in pixels, (sprite_coord, sprite) in sprites {
+		forEach (sprite_pixel_coord, sprite_pixel) in sprite.pixels {
+			let absolute_sprite_pixel_coord = sprite_coord + sprite_pixel_coord
+			if pixel_coord == absolute_sprite_pixel coord {
+				pixel == sprite_pixel
+			}
+		}
+	}
+}
+
+class SpriteOperation {
+	instanceOf { AddSpriteOperation }
+}
+
+data AddSpriteOperation {
+	sprite : Sprite
+	coord : (Int, Int)
+}
+
+function update(Canvas canvas, SpriteOperation operation): Canvas {
+	if (operation instanceOf(AddSpriteOperation)) {
+		return update Canvas {
+			sprites = sprites ++ [(operation.coord, operation.sprite)]
+		}
+	}
+}
+
+class GraphicsOperation {
+	instanceOf {DrawPixelOperation}
+}
+
+class DrawPixelOperation {
+	coord : (Int, Int)
+	value : RGB
+}
+
+function updateGraphics(canvas: Canvas, operation: GraphicsOperation) {
+	if (operation instanceOf(DrawPixelOperation)) {
+		return update Canvas {
+			sprites = update sprites [
+				operation.coord -> operation.value
+			]
+		}
+	}
+}
+
+# Okay, so what's the problem..
+# Essentially, we get a sequence of "high-level" operations, like add sprite, move sprite, rotate sprite, redraw, etc.
+# We then convert this sequence to a sequence of low-level operations, such as draw pixel, draw line, redraw, etc.
+# For this conversion we assert that after each high level redraw operation, the canvas of the high level interface must
+# be equivalent to the canvas of the low level interface after the corresponding low level redraw operation
+# Hence, our reasoning system can figure out which low level operations to do, to match the incoming high level operations
+
+# For ease of use, we represent "redraw" operations as ends of lists
+# So say you have a list [[Create Sprite, Move Sprite], [Move Sprite]], then the first refresh would happen after the end
+# of the first list, the second refresh would happen after the end of the second list.
+# Likewise for low level operations.
+
+input spriteOperationSequence : [[SpriteOperation]]
+output graphicsOperationSequence : [[GraphicsOperation]]
+
+function processSpriteOperationSequence(startCanvas: Canvas, sequence: [SpriteOperation]): Canvas {
+	if (sequence.length > 0) {
+		let nextCanvas = update(startCanvas, sequence.head)
+		return processSpriteOperationSequence(nextCanvas, sequence.tail)
+	} else {
+		return startCanvas
+	}
+}
+
+function processGraphicsOperationSequence(startCanvas: Canvas, sequence: [SpriteOperation]): Canvas {
+	if (sequence.length > 0) {
+		let nextCanvas = update(startCanvas, sequence.head)
+		return processGraphicsOperationSequence(nextCanvas, sequence.tail)
+	} else {
+		return startCanvas
+	}
+}
+
+spriteOperationSequence.length == processGraphicsOperationSequence.length
+
+forEach i in 0..spriteOperationSequence.length {
+	let spriteOperations = flatten spriteOperationSequence[0:i]
+	let graphicsOperations = flatten processGraphicsOperationSequence[0:i]
+
+	processSpriteOperationSequence(startCanvas, spriteOperations) == processGraphicsOperationSequence(startCanvas, graphicsOperations)
+}
+
+
+
+process:
+- specify what high-level and low-level operations do
+- give an input, give the system constraints on the output (including constraints depending on the input)
+- have the system compute a possible solution for the output
+	- make it a GOOD solution

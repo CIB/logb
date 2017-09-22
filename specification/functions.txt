@@ -1,0 +1,60 @@
+=========
+Relations
+=========
+
+var x = {
+	(a, b),
+	(c, d),
+	(e, f)
+}
+
+It follows:
+in((a, b), x)
+x(a, b)
+isRelation(x, 2)
+columnType(x, 1, ...)
+
+===============
+Functions (1-1)
+===============
+
+var x = {
+	(1, 1),
+	(2, 4),
+	(3, 9)
+}
+
+It follows:
+
+%x(1) = 1
+%x(2) = 4
+%x(3) = 9
+
+Or equivalently:
+exists y {
+	(1, y) in x
+}
+
+Or equivalently:
+exists y {
+	x(1, y)
+}
+
+Axiom:
+
+forall f where isFunction(f, D, R) {
+	isSet(D)
+	isSet(R)
+	isSet(f)
+	forall t in f {
+		isTuple(t, 2)
+		not exists t2 in f {
+			t2 != t and t[1] == t2[1]
+		}
+	}
+	forall x in D {
+		exists y in R {
+			(x, y) in f
+		}
+	}
+}

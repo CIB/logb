@@ -1,7 +1,6 @@
 - shortest path problem
 - optimal schedule
 - efficient relational algebra
-- modifying pixels with rendering primitives
 - computing results of numeric expressions
 - optimizing algebraic expressions for numeric accuracy
 - Scala Spiral / Matrix Factorization Rules
@@ -12,3 +11,38 @@
 - Regular expressions / EBNF
 - Sorting lists
 - Find steps to reach a goal (e.g. connect HDD X to computer, copy files)
+- Autocomplete / autosuggest, for instance for a command line (suggest file to open with program etc.)
+- Fault Tolerance in a distributed (storage) system
+	- possibly proving it
+	- but also ensuring it on the fly
+- solving equations
+- convert media codecs
+- battle simulation (battle for wesnoth, pokemon), calculate the most effective move
+
+- high-level database interface:
+	- user just specifies what data to put in
+	- system by itself thinks of ways to store that data
+	- implementation (code) to store and retrieve data is created by system based on
+		- way the data is stored (backend)
+		- requests
+	- this means it's potentially necessary to compute a way to retrieve data at "runtime"
+	- "predict" future requests based on a model considering past requests
+		- optimize based on prediction
+
+- high level description of a game world:
+	- have a tile-based game map
+	- instead of describing each tile individually and specifically, describe it using statements (if X is grass tile => X has plant Y on it, area within bounds A is grass)
+	- have events that are described in statement terms instead of specific terms (explosion at point X, if explosion at point X then convert grass to rubble)
+	- get individual and specific information (give me data descriptors of form F for tiles in range B)
+
+
+- modifying pixels with rendering primitives
+	- have definitions for rendering sprites, etc.
+	- only draw what's necessary
+	- use efficient operations (instead of drawing several separate pixels, draw a line, or fill, for instance)
+	- remember efficient ways to do things "situation X can be implemented through Y", minimal amount of "thought" / actions
+	- things like implementing "sprite shown above the other" by first drawing one sprite, then the other (but also consider more complex cases like transparency later)
+	
+
+- Functional programming:
+	- "What is the relation between function X and Y?" e.g. __cmp__ and ==

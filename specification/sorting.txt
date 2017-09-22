@@ -20,16 +20,83 @@ def isElement(Entity e, List l) {
 }
 
 def hasElementType(List l, Type t) {
-	forall e: isElement(e, l) => instanceOf(l, t)
+	forall e with isElement(e, l) {
+		instanceOf(e, t)
+	}
 }
 
-def toString(List l) {
-	! hasElementType(l, Char)
+def toString(List l) 
+	assert hasElementType(l, Char)
+{
 	case l instanceOf ListNil {
 		''
 	}
 	case l instanceOf ListElement {
 		l.element + toString(l.tail)
+	}
+}
+
+def length(List l) {
+	case l instanceOf ListNil {
+		0
+	}
+	case l instanceOf ListElement {
+		length(l.tail) + 1
+	}
+}
+
+class Identifiable {
+	def equals(Identifiable other) -> true
+}
+
+class Comparable {
+	instanceOf Identifiable
+	def compare(Comparable other) -> {-1, 0, 1}
+	
+	foreach self {
+		foreach Comparable other {
+			self.equals(other) <=> self.compare(other) == 0
+		}
+	}
+}
+
+// No duplicate items in list.
+def unique(List l)
+	assert hasElementType(l, Identifiable)
+{
+	foreach element with isElement(element, l) {
+		foreach secondElement with isElement(secondElement, l) {
+			not element.equals(secondElement)
+		}
+	}
+}
+
+def sameElements(List l1, List l2)
+	assert unique(l1)
+	assert unique(l2)
+{
+	forall e {
+		isElement(e, l1) <=> isElement(e, l2)
+	}
+}
+
+def sort(List l) -> List result
+	assert sameElements(l, result)
+	assert sorted(result)
+
+def sorted(List l)
+	assert hasElementType(l, Comparable)
+{
+	case l instanceOf ListNil {
+		true
+	}
+	case l instanceOf ListElement {
+		case l.tail instanceOf ListNil {
+			true
+		}
+		case l.tail instanceOf ListElement {
+			l.element.compare(l.tail.element) != -1 and sorted(l.tail)
+		}
 	}
 }
 

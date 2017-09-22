@@ -1,0 +1,155 @@
+data FunctionDef {
+	paramCount : Integer
+	domain : Set[Tuple[paramCount]]
+	body : Expression
+}
+
+data IfExpression {
+	Expression cond
+	Expression thenBranch
+	Expression elseBranch
+}
+
+data ParameterRef {
+	index : Integer
+}
+
+class Expression {
+	instanceOf IfExpression | FunctionCall | Constant | ParameterRef
+}
+
+evalExpr(what: Expression, env: List[Constant], result: Constant|Failure) :- {
+	what instanceOf Constant && what.data == result
+}
+
+evalExpr(what: Expression, env: List[Constant], result: Constant|Failure) :- {
+	what instanceOf FunctionCall && 
+	... arguments ... &&
+	evalFun(what, arguments, result)
+}
+
+def evalExpr(what: Expression, env: List[Constant]) -> Constant|Failure {
+	if (what instanceOf Constant) {
+		return what.data
+	} else if (what instanceOf FunctionCall) {
+		let arguments = what.arguments.map( (argument) => {
+			return evalExpr(argument, env)
+		})
+		return evalFun(what.function, arguments)
+	} else if (what instanceOf IfExpression) {
+		let condValue = eval what.cond env
+		if (condValue == Failure) {
+			return Failure
+		} else if (condValue.data instanceOf Boolean) {
+			if (condValue.data) {
+				return eval(what.thenBranch)
+			} else {
+				return eval(what.elseBranch)
+			}
+		} else {
+			return Failure
+		}
+	} else if (what instanceOf ParameterRef) {
+		if (0 <= what.index and what.index < env.length) {
+			return env[what.index]
+		} else {
+			return Failure
+		}
+	}
+}
+
+def evalFun(what: Function, arguments: List[Constant]) -> Constant|Failure {
+	if not (what in globals) {
+		return Failure
+	}
+	
+    let calledFun = globals[what]
+
+	if (arguments.length != calledFun.paramCount) {
+		return Failure
+	}
+	
+	if not (arguments in calledFun.domain) {
+		return Failure
+	}
+	
+	return evalExpr calledFun.body arguments
+}
+
+data FunctionCall {
+	function : Function
+	arguments : List
+	
+	foreach argument in arguments {
+		argument instanceOf Expression
+	}
+}
+
+data Constant {
+	data : Integer|String|Map[Integer|String -> Value]
+}
+
+def recursiveFunction(x) {
+	if (x > 0) {
+		return [x] ++ recursiveFunction(x - 1)
+	} else {
+		return []
+	}
+}
+
+recursiveFunction(x, r) :- {
+	x > 0 && recursiveFunction(x - 1, t) && (r = [x] ++ t)
+}
+
+recursiveFunction(x, r) :- {
+	x <= 0 && (r = [])
+}
+
+terminates(f) :- {
+	f(params, result) => (result = function_of(params))
+}
+
+recursiveFunction(5, r) :- {
+	5 > 0 && recursiveFunction(5 - 1, t) && (r = [5] ++ t)
+} :- {
+	5 > 0 && (r = [5] ++ t) &&
+		4 > 0 && recursiveFunction(4 - 1, t2) && (t = [4] ++ t2) && (r = [5] ++ t)
+}
+
+// OK, let's try some list examples
+
+let testList = Constant {
+	data = Map {
+		"value" -> 0,
+		"tail" -> Map {
+			"value" -> 1,
+			"tail" -> Map {
+				"value" -> 2,
+				"tail" -> Nil
+			}
+		}
+	}
+}
+
+globals[SortList] = FunctionDef {
+	paramCount = 1
+	domain = [x | x instanceOf List]
+	
+	body = IfExpression {
+		cond = FunctionCall {
+			function = equals,
+			arguments = [
+				ParameterRef {
+					index = 0
+				},
+				Nil
+			]
+		},
+		thenBody = ParameterRef {
+			index = 0
+		},
+		elseBody = {
+			...
+		}
+	}
+}

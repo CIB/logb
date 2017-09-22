@@ -1,0 +1,195 @@
+input startCanvas = Canvas {
+	width  = 1280
+	height = 720
+	pixels = (x, y) -> RGB {0, 0, 0} where 0 <= x < 1280 and 0 <= y < 720
+}
+
+input SpriteOperations = [
+	[
+		AddSpriteOperation {
+			newSpriteIndex = 0,
+			coord = (10, 10),
+			sprite = Sprite {
+				width = 10
+				height = 10
+				pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+			}
+		},
+		FlipSpriteOperation {
+			spriteIndex = 0,
+			axis = "x"
+		}
+	],
+	[
+		RotateSpriteOperation {
+			spriteIndex = 0,
+			rotation = 0.5,
+			axis = "y"
+		},
+		MoveSpriteOperation {
+			spriteIndex = 0,
+			translation = (10, 5)
+		}
+	]
+]
+
+output PixelOperations
+PixelOperations instanceOf [[PixelOperation]]
+
+spriteOperationSequence.length == processGraphicsOperationSequence.length
+
+forEach i in 0..spriteOperationSequence.length {
+	let spriteOperations = flatten spriteOperationSequence[0:i]
+	let graphicsOperations = flatten processGraphicsOperationSequence[0:i]
+
+	processSpriteOperationSequence(startCanvas, spriteOperations) == processGraphicsOperationSequence(startCanvas, graphicsOperations)
+}
+
+----- ! end of query ! -----
+----- ! start reasoning .... ! -----
+
+expand forEach i in 0..spriteOperationSequence.length with i = 0 {
+	let spriteOperations = flatten spriteOperationSequence[0:0]
+	let graphicsOperations = flatten processGraphicsOperationSequence[0:0]
+
+	processSpriteOperationSequence(startCanvas, spriteOperations) == processGraphicsOperationSequence(startCanvas, graphicsOperations)
+	
+	spriteOperations == []
+	graphicsOperations == []
+	
+	processSpriteOperationSequence(startCanvas, spriteOperations) == processSpriteOperationSequence(startCanvas, [])
+	processSpriteOperationSequence(startCanvas, []) == {
+		if ([].length > 0) {
+			let nextCanvas = update(startCanvas, sequence.head)
+			return processSpriteOperationSequence(nextCanvas, sequence.tail)
+		} else {
+			return startCanvas
+		}
+	} == {
+		return startCanvas
+	} == startCanvas
+	
+	processGraphicsOperationSequence(startCanvas, graphicsOperations) == processGraphicsOperationSequence(startCanvas, [])
+	== startCanvas
+}
+
+expand forEach i in 0..spriteOperationSequence.length with i = 1 {
+	let spriteOperations = flatten spriteOperationSequence[0:1]
+	let graphicsOperations = flatten processGraphicsOperationSequence[0:1]
+
+	processSpriteOperationSequence(startCanvas, spriteOperations) == processGraphicsOperationSequence(startCanvas, graphicsOperations)
+	
+	spriteOperations == []
+	graphicsOperations == []
+	
+	spriteOperations == [
+		AddSpriteOperation {
+			newSpriteIndex = 0,
+			coord = (10, 10),
+			sprite = Sprite {
+				width = 10
+				height = 10
+				pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+			}
+		},
+		FlipSpriteOperation {
+			spriteIndex = 0,
+			axis = "x"
+		}
+	]
+	
+	processSpriteOperationSequence(startCanvas, spriteOperations) == {
+		let sequence = [
+			AddSpriteOperation {
+				newSpriteIndex = 0,
+				coord = (10, 10),
+				sprite = Sprite {
+					width = 10
+					height = 10
+					pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+				}
+			},
+			FlipSpriteOperation {
+				spriteIndex = 0,
+				axis = "x"
+			}
+		]
+		if (sequence.length > 0) {
+			let nextCanvas = update(startCanvas, sequence.head)
+			return processSpriteOperationSequence(nextCanvas, sequence.tail)
+		} else {
+			return startCanvas
+		}
+	} == {
+		let sequence = [
+			AddSpriteOperation {
+				newSpriteIndex = 0,
+				coord = (10, 10),
+				sprite = Sprite {
+					width = 10
+					height = 10
+					pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+				}
+			},
+			FlipSpriteOperation {
+				spriteIndex = 0,
+				axis = "x"
+			}
+		]
+		let nextCanvas = update(startCanvas, sequence.head)
+		return processSpriteOperationSequence(nextCanvas, sequence.tail)
+	} == {
+		let sequence = [
+			AddSpriteOperation {
+				newSpriteIndex = 0,
+				coord = (10, 10),
+				sprite = Sprite {
+					width = 10
+					height = 10
+					pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+				}
+			},
+			FlipSpriteOperation {
+				spriteIndex = 0,
+				axis = "x"
+			}
+		]
+		let nextCanvas = {
+			let operation = AddSpriteOperation {
+				newSpriteIndex = 0,
+				coord = (10, 10),
+				sprite = Sprite {
+					width = 10
+					height = 10
+					pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+				}
+			}
+			if (operation instanceOf(AddSpriteOperation)) {
+				return update Canvas {
+					sprites = sprites ++ [(operation.coord, operation.sprite)]
+				}
+			}
+		} = {
+			return update Canvas {
+				sprites = sprites ++ [((10, 10), Sprite {
+					width = 10
+					height = 10
+					pixels = (x, y) -> RGBA {x, y, x+y} where 0 <= x < 10 and 0 <= y < 10
+				})]
+			}
+		}
+		return processSpriteOperationSequence(nextCanvas, sequence.tail)
+	}
+	
+	processSpriteOperationSequence(startCanvas, spriteOperations) == processSpriteOperationSequence(startCanvas, [])
+	processSpriteOperationSequence(startCanvas, []) == {
+		if ([].length > 0) {
+			let nextCanvas = update(startCanvas, sequence.head)
+			return processSpriteOperationSequence(nextCanvas, sequence.tail)
+		} else {
+			return startCanvas
+		}
+	} == {
+		return startCanvas
+	} == startCanvas
+}

@@ -1,0 +1,146 @@
+A construction (constructive function) is:
+- A function
+- The definition of the function is either:
+    - A nested call of constructions where the innermost parameters are constants or input parameters
+    - An if/else, where the blocks are nested calls as above, and the conditions are nested calls as above that produce a boolean
+
+Basic (non-sugar components) of the relational language:
+- Data definitions
+    - A datum is either an aggregate of other data, or one of several primitive data types
+    - Primitive data types are string, int, float and boolean
+    - Aggregate data types map a (finite) set of strings (ints?) to other data
+    - Aggregation must "terminate" (the leaves must be primitive data)
+- Statements
+    - A primitive statement asserts that a tuple is part of a relation
+    - Aggregate statements can be constructed in the following ways:
+        - and, or, not
+        - implications
+        - forall / exists quantors
+- Classes
+    - Implemented within the language itself
+    - Classes are "just" labels
+    - Semantics are implemented through "instanceOf" relation
+    - Object declared as "instanceOf" class through statement
+    - Meaning of a class as an implication: "instanceOf X => A, B, C"
+
+Examples in the most rudimentary logb language:
+
+data ListHead {
+    head : Data
+    tail : Data
+}
+
+data ListNil {}
+
+label List
+
+# Definition of lists
+foreach elem {
+    elem instanceOf List => {
+        {
+            elem isData ListHead
+            elem.tail instanceOf List
+        }
+        or
+        {
+            elem isData ListNil
+        }
+    }
+}
+
+# Definition of list types
+relationship hasType(infix)
+
+foreach list, X {
+    list hasType X => {
+        # hasType relationship only between lists and classes
+        list instanceOf List
+        X isClass
+        
+        # if a list has a type, all elements must be of that type
+        foreach Y {
+            list isData Y => {
+                switch Y {
+                    case ListHead {
+                        elem.head instanceOf X
+                        elem.tail hasType X
+                    }
+                    case ListNil {
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+Proofs
+======
+
+To Prove:
+
+foreach list {
+    list instanceOf List {
+        list isData ListHead
+        or
+        list isData ListNil
+    }
+}
+
+Proof:
+        {
+            elem isData ListHead
+            elem.tail instanceOf List
+        }
+        
+        => (AndElimination)
+        
+        elem isData ListHead
+
+Hence
+
+{
+    elem isData ListHead
+    elem.tail instanceOf List
+}
+or
+{
+    elem isData ListNil
+}
+
+=> (Implication Substitution)
+
+{
+    elem isData ListHead
+}
+or
+{
+    elem isData ListNil
+}
+
+Hence
+
+elem instanceOf List => {
+    {
+        elem isData ListHead
+        elem.tail instanceOf List
+    }
+    or
+    {
+        elem isData ListNil
+    }
+}
+
+=> (Implication Substitution)
+
+elem instanceOf List => {
+    {
+        elem isData ListHead
+    }
+    or
+    {
+        elem isData ListNil
+    }
+}
+
+etc. etc.

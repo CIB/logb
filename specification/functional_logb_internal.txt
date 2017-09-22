@@ -1,0 +1,82 @@
+label ListHead
+isDataClass ListHead
+ListHead hasDataAttributes [
+	"head", "data"
+]
+
+label ListNil
+isDataClass ListNil
+ListNil hasDataAttributes []
+
+foreach elem {
+	elem instanceOf List => {
+		{
+			elem isData ListHead
+			foreach tail {                               |
+				dataAttributeValue elem "tail" tail => { |
+					tail instanceOf List                 | elem.tail instanceOf List
+				}                                        |
+			}                                            |
+		}
+		or
+		{
+			elem isData ListNil
+		}
+	}
+}
+
+foreach l {
+	foreach x {
+		l hasListType x => {
+			l instanceOf List
+			isClass x
+			
+			if (l isData ListHead) {
+				l.head instanceOf x
+				l.tail hasListType x
+			} else if (l isData ListNil) {
+				pass
+			}
+		}
+	}
+}
+
+Interesting equivalence:
+
+foreach l {
+	foreach x {
+		equivalent
+		{
+			l hasListType x
+		}
+		{
+			l instanceOf List
+			isClass x
+			
+			def l hasListTypeWeak x {
+				if (l isData ListHead) {
+					l.head instanceOf x
+					l.tail hasListTypeWeak x
+				}
+			}
+			
+			l hasListTypeWeak x
+		}
+	}
+}
+
+Proof via Induktion!! :)
+
+
+foreach elem {                       |        | foreach elem {                   | A = {
+	elem instanceOf List => {        |        |	elem instanceOf List => {        |       elem isData ListHead
+		{                            |        |		{                            |       elem.tail instanceOf List
+			A                        |        |			B                        |     }
+		}                            |        |		}                            |
+		or                           | A => B |		or                           | B = {
+		{                            |        |		{                            |       elem isData ListHead
+			elem isData ListNil      |        |			elem isData ListNil      |     }
+		}                            |        |		}                            |        
+	}                                |        |	 }                               |        
+}                                    |        |}                                 |   
+
