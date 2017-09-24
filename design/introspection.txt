@@ -1,0 +1,54 @@
+# Introspection allows us to access statements as entities.
+
+begin axioms
+    class function
+		define is_instance(r)
+			# Is relation `r` a function?
+			r is relation
+			
+			arity(r) == 2
+			
+			foreach arg, result in r
+				foreach arg2, result2 in r
+					if arg == arg2 then result == result2 end
+				end
+			end
+		end
+    end
+end
+
+begin theorem
+    # This is where the introspection comes in.
+    # In the following, we talk about actual definitions
+    # (usually written down in code), rather than just
+    # relations in general.
+    
+    # Look for a rule of the form:
+    # f(x, y) <-> g(y1, y), h(x, y1)
+    foreach symbol f, g, h
+		if
+			f.relation.arity == 2
+			g.relation is function
+			h.relation is function
+		and
+			exists equivalence r with
+				r.head == f
+				
+				exists variable_symbol y1 with
+					exists statement s in r.tail with
+						s.symbol == h
+						s.tuple[0] == f.tuple[0]
+						s.tuple[1] == y1
+					end
+					exists statement s in r.tail with
+						s.symbol == g
+						s.tuple[0] == y1
+						s.tuple[1] == f.tuple[1]
+					end
+				end
+			end
+		then
+			f.relation is function
+		end
+    end
+end

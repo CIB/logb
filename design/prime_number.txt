@@ -1,0 +1,9 @@
+begin axioms
+    define prime_number(n)
+        n is Integer
+        not exists Integer k with
+            k != 1
+            n % k == 0
+        end
+    end
+end
