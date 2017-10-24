@@ -1,1 +1,110 @@
-
+begin axioms
+	class Expression
+		instanceOf [
+			ConstantExpr, IfExpr, DefineExpr, CallExpr
+		]
+	end
+	
+	class ExprTreeNode
+		instanceOf [ConstantExprNode, IfExprNode, DefineExprNode, CallExprNode]
+	end class
+	
+	data ConstantExprNode
+		attributes
+			expr : ConstantExpr
+			environment : Map[String -> ConstantExpr]
+			value : ConstantExpr
+		end attributes
+	end data
+	
+	data IfExprNode
+		attributes
+			expr : IfExpr
+			environment : Map[String -> ConstantExpr]
+			conditionNode : ExprTreeNode
+			takenBranchNode : ExprTreeNode
+		end attributes
+	end data
+	
+	data DefineExprNode
+		attributes
+			expr : DefineExpr
+			environment : Map[String -> ConstantExpr]
+			definedValue : ConstantExpr
+			bodyNode : ExprTreeNode
+		end attributes
+	end data
+	
+	data CallExprNode
+		attributes
+			expr : CallExpr
+			environment : Map[String -> ConstantExpr]
+			arguments : [ConstantExpr]
+			body : ExprTreeNode
+		end attributes
+	end data
+	
+	data ConstantExpr
+		attributes
+			value : Integer | String
+		end attributes
+		
+		define expand(self, env) self.value end
+	end
+	
+	data IfExpr
+		attributes
+			condition  : Expression
+			thenBranch : Expression
+			elseBranch : Expression
+		end attributes
+		
+		define is_valid(self, env)
+			if is_valid(self.condition, env) then
+				let condValue = eval(self.condition, env)
+				if condValue == True then
+					is_valid(self.thenBranch, env)
+				elseif condValue == False
+					is_valid(self.elseBranch, env)
+				else
+					False
+				end if
+			end if
+		end define
+		
+		define expand(self, env)
+			
+		end define
+	end data
+	
+	data DefineExpr
+		attributes
+			variableName : String
+			value : Expression
+			subExpression : Expression
+		end attributes
+		
+		define is_valid(self, env)
+			is_valid(self.value, env)
+			self.variableName not in keys(env)
+			let newEnv = env ++ (self.variableName -> eval(self.value, env))
+			is_valid(self.subExpression, newEnv)
+		end define
+	end
+	
+	data CallExpr
+		attributes
+			functionName : String
+			arguments : [Expression]
+		end attributes
+	end
+	
+	data FunctionDefinition
+		attributes
+			name : String
+			parameters : [String]
+			body : Expression
+		end attributes
+	end
+	
+end axioms
