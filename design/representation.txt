@@ -1,0 +1,135 @@
+# So the goal here is to represent a list.
+# The list is in the implementation represented as data and statements.
+# Statements can then be derived to create a visual representation.
+# Especially interesting are representations of not just "concrete" lists,
+# but "abstract" descriptions of lists.
+
+data ListHead
+	head : Data
+	tail : List
+end
+
+data ListNil
+end
+
+class List
+	instanceOf [ListHead, ListNil]
+end
+
+def @list listType @type
+	@list instanceOf List
+	
+	if @list instanceOf ListHead then
+		@list.head instanceOf @type
+		@list.tail listType @type
+	end
+end
+
+def generateTokens(@list)
+	@list instanceOf List
+
+	if @list instanceOf ListNil
+		return ["[", [], "]"]
+	else
+		let prevTokens = generateTokens(@list.tail)
+		prevTokens[1] = prevTokens[1] ++ [stringify @list.head]
+	end
+end
+
+rule ["[", [@x], "]"] describes @listSym when
+	@listSym instanceOf Symbol
+	let @xSymbol instanceOf Symbol
+	statement "<<@listSym>> instanceOf List"
+	statement "<<@listSym>>.length 1"
+	statement "<<@listSym>>[0] == <<@x>>"
+	stringify @xSymbol == @x
+end
+
+# What's also interesting, and very fundamental to our system, is representing sets of statements.
+# Representing statements in their very low-level form is difficult to read and work with.
+# Better: Represent them using shorthand syntax and "expand" when the user requests it (e.g. by hovering with mouse).
+
+# Shorthand syntax should follow a general structure that can be interacted with in a uniform way in an IDE
+# That is, shorthand syntax should not just be text, but actually a syntax tree, with individual tokens being linked to
+# semantic entities.
+
+Full syntax:
+
+let list = ListHead {
+	head: 1,
+	tail: ListHead {
+		head: 2,
+		tail: ListHead {
+			head: 3,
+			tail: ListNil
+		}
+	}
+}
+
+Shorthand syntax:
+
+let list = [1, 2, 3]
+
+Syntax tree:
+
+[
+	"[",
+	[
+		"1",
+		", ",
+		"2",
+		", ",
+		"3"
+	]
+	"]"
+] -> ListHead {
+	head: 1,
+	tail: ListHead {
+		head: 2,
+		tail: ListHead {
+			head: 3,
+			tail: ListNil
+		}
+	}
+}
+
+Full syntax:
+
+exists y {
+	f((x), y)
+	[...]
+}
+
+Shorthand syntax:
+
+let y = f(x)
+[...]
+
+Syntax tree:
+[
+	"let",
+	" ",
+	"y" -> y,
+	[
+		"f" -> f
+		[
+			"(",
+			[
+				"x" -> x
+			]
+		]
+	],
+	subExpr
+] -> exists y {
+	f((x), y)
+	subExpr
+}
+
+Problems:
+- Interacting with subexpressions, especially when the subexpression is on the "same level" in the syntax tree as the expression itself
+- Uniquely identifying semantic entities
+- Varying levels of representation for the same thing (if we always display the "underlying" representation of something in the syntax tree as the lowest level, it'll be very hard to read, but if we display it as the same level as in the syntax tree, we'll gain no info)
+
+First step before logb: A system to define, display and browse these representation shifts? Define them through programming languages instead of statements? Although, what "is" represented, should always at the lowest level be statements and logb data structures..
+
+Advantage of such a system: Can during proofs always accurately trace back statements to their syntactical source ("back"). Can conversely also represent sets of statements as a syntactically cleaner form ("forward"). "forward" is a lot harder, as it involves search for semantically equivalent statements that match the exact definition of the syntax shorthand. Would on some level involve transforming arbitrary sets of statements into an equivalent that matches a certain "pattern".

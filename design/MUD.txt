@@ -1,0 +1,44 @@
+# Interesting questions:
+# If I level up skill A from 1 to 2, which new things can I craft that weren't possible before?
+# What can I do that wasn't possible before?
+
+class RoomContent {
+	instanceOf [Item, Player]
+}
+
+data Item {
+}
+
+data Room
+	content : Set[RoomContent]
+	
+	def is_connected(@, world: World, other: Room)
+		world.is_connected(@, other)
+	end
+end
+
+data World
+	rooms: [Room]
+	is_connected: Relation[@rooms, @rooms]
+	
+	# Rooms aren't connected to themselves.
+	# If one room is connected to another,
+	# the other room is connected to the one room.
+	foreach <roomA, roomB> in is_connected 
+		roomA != roomB
+		<roomB, roomA> in is_connected
+	end
+end
+
+class Stat {
+	@ instanceOf Integer
+	@ >= 0
+}
+
+class StatType {
+	@ elemOf ["cooking", "construction", "mechanics", "tailoring"]
+}
+
+data Player
+	stats: Map[StatType -> Stat]
+end

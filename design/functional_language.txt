@@ -14,6 +14,7 @@ begin axioms
 			expr : ConstantExpr
 			environment : Map[String -> ConstantExpr]
 			value : ConstantExpr
+			result : ConstantExpr
 		end attributes
 	end data
 	
@@ -23,6 +24,7 @@ begin axioms
 			environment : Map[String -> ConstantExpr]
 			conditionNode : ExprTreeNode
 			takenBranchNode : ExprTreeNode
+			result : ConstantExpr
 		end attributes
 	end data
 	
@@ -32,6 +34,7 @@ begin axioms
 			environment : Map[String -> ConstantExpr]
 			definedValue : ConstantExpr
 			bodyNode : ExprTreeNode
+			result : ConstantExpr
 		end attributes
 	end data
 	
@@ -41,12 +44,14 @@ begin axioms
 			environment : Map[String -> ConstantExpr]
 			arguments : [ConstantExpr]
 			body : ExprTreeNode
+			result : ConstantExpr
 		end attributes
 	end data
 	
 	data ConstantExpr
 		attributes
 			value : Integer | String
+			result : ConstantExpr
 		end attributes
 		
 		define expand(self, env) self.value end
@@ -73,7 +78,22 @@ begin axioms
 		end define
 		
 		define expand(self, env)
+			let condExprNode = condition.expand(env)
+			let conditionValue = condExprNode.value
 			
+			if conditionValue === True then
+				let takenBranchNode = thenBranch.expand(env)
+			else if conditionValue === False
+				let takenBranchNode = elseBranch.expand(env)
+			endif
+			
+			return IfExprNode {
+				expr = self
+				environment = env
+				conditionNode = condExprNode
+				takenBranchNode = takenBranchNode
+				result = takenBranchNode.result
+			}
 		end define
 	end data
 	
@@ -89,6 +109,19 @@ begin axioms
 			self.variableName not in keys(env)
 			let newEnv = env ++ (self.variableName -> eval(self.value, env))
 			is_valid(self.subExpression, newEnv)
+		end define
+		
+		define expand(self, env)
+			let value = eval(self.value, env)
+			let newEnv = env ++ (self.variableName -> value)
+			let bodyNode = subExpression.expand(newEnv)
+			return DefineExprNode {
+				expr = self
+				environment = env
+				definedValue = value
+				bodyNode = bodyNode
+				result = bodyNode.result
+			}
 		end define
 	end
 	
